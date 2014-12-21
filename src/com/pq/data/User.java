@@ -1,12 +1,11 @@
 package com.pq.data;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.utils.framework.collections.cache.GlobalStringCache;
 
 /**
  * Created by CM on 12/20/2014.
  */
-@JsonIgnoreProperties(ignoreUnknown = true)
+
 public class User {
     private static final GlobalStringCache STRING_CACHE = GlobalStringCache.getInstance();
 

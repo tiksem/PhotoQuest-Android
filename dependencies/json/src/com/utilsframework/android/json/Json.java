@@ -1,4 +1,4 @@
-package com.pq.data;
+package com.utilsframework.android.json;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.core.type.TypeReference;
@@ -17,6 +17,12 @@ import java.util.Map;
  * Created by CM on 12/20/2014.
  */
 public class Json {
+    public static <T> T read(String json, Class<T> aClass) throws IOException {
+        ObjectMapper mapper = new ObjectMapper();
+        mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);
+        return mapper.readValue(json, aClass);
+    }
+
     public static <T> List<T> readList(String json, String key, Class<T> aClass) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         mapper.configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false);

@@ -10,4 +10,6 @@
     <string name="login_progress_message">Loging in...</string>
     <string name="all">All</string>
     <string name="created">Created</string>
+    <string name="following">Following</string>
+    <string name="performed">Performed</string>
 </resources>

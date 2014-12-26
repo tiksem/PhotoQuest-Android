@@ -5,10 +5,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import com.pq.R;
-import com.pq.fragments.AllPhotoquestsFragment;
-import com.pq.fragments.CreatedPhotoquestsFragment;
-import com.pq.fragments.LogoutFragment;
-import com.pq.fragments.PeopleFragment;
+import com.pq.fragments.*;
 import com.utilsframework.android.navigation.NavigationDrawerActivity;
 
 /**
@@ -17,7 +14,9 @@ import com.utilsframework.android.navigation.NavigationDrawerActivity;
 public class MainActivity extends NavigationDrawerActivity {
     private static final int ALL_PHOTOQUESTS_TAB = 0;
     private static final int CREATED_PHOTOQUESTS_TAB = 1;
-    private static final int PHOTOQUEST_TABS_COUNT = 2;
+    private static final int PERFORMED_PHOTOQUESTS_TAB = 2;
+    private static final int FOLLOWING_PHOTOQUESTS_TAB = 3;
+    private static final int PHOTOQUEST_TABS_COUNT = 4;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -43,6 +42,10 @@ public class MainActivity extends NavigationDrawerActivity {
                 return new AllPhotoquestsFragment();
             } else if(tabIndex == CREATED_PHOTOQUESTS_TAB) {
                 return new CreatedPhotoquestsFragment();
+            } else if(tabIndex == PERFORMED_PHOTOQUESTS_TAB) {
+                return new PerformedPhotoquestsFragment();
+            } else if(tabIndex == FOLLOWING_PHOTOQUESTS_TAB) {
+                return new FollowingPhotoquestsFragment();
             }
         } else if(selectedItemId == R.id.log_out) {
             return new LogoutFragment();
@@ -58,6 +61,10 @@ public class MainActivity extends NavigationDrawerActivity {
                 tab.setText(R.string.all);
             } else if(tabIndex == CREATED_PHOTOQUESTS_TAB) {
                 tab.setText(R.string.created);
+            } else if(tabIndex == FOLLOWING_PHOTOQUESTS_TAB) {
+                tab.setText(R.string.following);
+            } else if(tabIndex == PERFORMED_PHOTOQUESTS_TAB) {
+                tab.setText(R.string.performed);
             }
         }
     }

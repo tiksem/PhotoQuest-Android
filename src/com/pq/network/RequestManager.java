@@ -41,19 +41,9 @@ public class RequestManager implements ImageUrlProvider {
         return httpClient.getNavigationList(params);
     }
 
-    public NavigationList<Photoquest> getPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
+    private GetNavigationListParams<Photoquest>
+    initPhotoquestsNavigationListParams(OnAllDataLoaded onAllDataLoaded) {
         GetNavigationListParams<Photoquest> params = new GetNavigationListParams<Photoquest>();
-        params.url = rootUrl + "//getPhotoquests";
-        params.limit = 10;
-        params.key = "quests";
-        params.aClass = Photoquest.class;
-        params.onAllDataLoaded = onAllDataLoaded;
-        return httpClient.getNavigationList(params);
-    }
-
-    public NavigationList<Photoquest> getCreatedPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
-        GetNavigationListParams<Photoquest> params = new GetNavigationListParams<Photoquest>();
-        params.url = rootUrl + "//getCreatedPhotoquests";
         params.limit = 10;
         params.key = "quests";
         params.aClass = Photoquest.class;
@@ -62,7 +52,30 @@ public class RequestManager implements ImageUrlProvider {
         params.params = new TreeMap<String, Object>();
         params.params.put("userId", signedInUser.getId());
 
+        return params;
+    }
+
+    public NavigationList<Photoquest> getPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded,
+                                                                   String url) {
+        GetNavigationListParams<Photoquest> params = initPhotoquestsNavigationListParams(onAllDataLoaded);
+        params.url = rootUrl + url;
         return httpClient.getNavigationList(params);
+    }
+
+    public NavigationList<Photoquest> getAllPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
+        return getPhotoquestsNavigationList(onAllDataLoaded, "//getPhotoquests");
+    }
+
+    public NavigationList<Photoquest> getCreatedPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
+        return getPhotoquestsNavigationList(onAllDataLoaded, "//getCreatedPhotoquests");
+    }
+
+    public NavigationList<Photoquest> getPerformedPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
+        return getPhotoquestsNavigationList(onAllDataLoaded, "//getPerformedPhotoquests");
+    }
+
+    public NavigationList<Photoquest> getFollowingPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
+        return getPhotoquestsNavigationList(onAllDataLoaded, "//getFollowingPhotoquests");
     }
 
     public interface LoginListener {

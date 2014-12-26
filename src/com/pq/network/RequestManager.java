@@ -1,5 +1,6 @@
 package com.pq.network;
 
+import com.pq.data.Photoquest;
 import com.pq.data.User;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.json.*;
@@ -35,6 +36,17 @@ public class RequestManager implements ImageUrlProvider {
         params.limit = 10;
         params.key = "users";
         params.aClass = User.class;
+        params.cachingTime = 5 * 60 * 1000;
+        params.onAllDataLoaded = onAllDataLoaded;
+        return httpClient.getNavigationList(params);
+    }
+
+    public NavigationList<Photoquest> getPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
+        GetNavigationListParams<Photoquest> params = new GetNavigationListParams<Photoquest>();
+        params.url = rootUrl + "//getPhotoquests";
+        params.limit = 10;
+        params.key = "quests";
+        params.aClass = Photoquest.class;
         params.cachingTime = 5 * 60 * 1000;
         params.onAllDataLoaded = onAllDataLoaded;
         return httpClient.getNavigationList(params);

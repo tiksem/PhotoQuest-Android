@@ -6,7 +6,7 @@ import com.utils.framework.collections.cache.GlobalStringCache;
  * Created by CM on 12/20/2014.
  */
 
-public class User {
+public class User implements WithAvatar {
     private static final GlobalStringCache STRING_CACHE = GlobalStringCache.getInstance();
 
     private Long avatarId;
@@ -15,6 +15,7 @@ public class User {
     private String country;
     private String city;
 
+    @Override
     public Long getAvatarId() {
         return avatarId;
     }

@@ -3,4 +3,6 @@
     <string name="app_name">PhotoQuest</string>
     <string name="sign_in_button">Sign In</string>
     <string name="sign_up_button">Sign Up</string>
+    <string name="people">People</string>
+    <string name="photoquests">Photoquests</string>
 </resources>

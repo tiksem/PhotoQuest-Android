@@ -9,6 +9,7 @@ import com.pq.R;
 import com.pq.adapters.holders.UserHolder;
 import com.pq.data.User;
 import com.pq.network.ImageUrlProvider;
+import com.pq.utils.Images;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 
 /**
@@ -17,7 +18,6 @@ import com.utilsframework.android.adapters.ViewArrayAdapter;
 public class UserListAdapter extends ViewArrayAdapter<User, UserHolder> {
     private static final int AVATAR_SIZE = 100;
 
-    private ImageLoader imageLoader = ImageLoader.getInstance();
     private ImageUrlProvider imageUrlProvider;
 
     public UserListAdapter(Context context, ImageUrlProvider imageUrlProvider) {
@@ -43,8 +43,8 @@ public class UserListAdapter extends ViewArrayAdapter<User, UserHolder> {
     protected void reuseView(User user, UserHolder userHolder, int position, View view) {
         userHolder.name.setText(user.getName() + " " + user.getLastName());
         userHolder.location.setText(user.getCity() + ", " + user.getCountry());
-        String avatar = imageUrlProvider.getThumbnailUrl(user.getAvatarId(), AVATAR_SIZE);
-        imageLoader.displayImage(avatar, userHolder.avatar);
+        Images.displayAvatar(imageUrlProvider, userHolder.avatar, user.getAvatarId(),
+                AVATAR_SIZE);
     }
 
     @Override

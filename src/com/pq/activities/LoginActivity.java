@@ -89,7 +89,7 @@ public class LoginActivity extends Activity implements RequestManager.LoginListe
             @Override
             public void onFinish() {
                 LoginActivity.this.finish();
-                PeopleActivity.start(LoginActivity.this);
+                MainActivity.start(LoginActivity.this);
             }
         });
     }

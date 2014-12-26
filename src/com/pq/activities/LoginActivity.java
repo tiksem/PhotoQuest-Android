@@ -11,6 +11,8 @@ import com.pq.network.RequestManager;
 import com.utilsframework.android.db.KeyValueDatabase;
 import com.utilsframework.android.db.SQLiteKeyValueDatabase;
 import com.utilsframework.android.json.ExceptionInfo;
+import com.utilsframework.android.threading.OnComplete;
+import com.utilsframework.android.threading.Threading;
 
 import java.io.IOException;
 
@@ -76,9 +78,25 @@ public class LoginActivity extends Activity implements RequestManager.LoginListe
     }
 
     @Override
-    public void onLoginSuccess(User user, String login, String password) {
-        keyValueDatabase.setAsync("login", login, null);
-        keyValueDatabase.setAsync("password", password, null);
-        PeopleActivity.start(this);
+    public void onLoginSuccess(User user, final String login, final String password) {
+        Threading.runOnBackground(new Runnable() {
+            @Override
+            public void run() {
+                keyValueDatabase.set("login", login);
+                keyValueDatabase.set("password", password);
+            }
+        }, new OnComplete() {
+            @Override
+            public void onFinish() {
+                LoginActivity.this.finish();
+                PeopleActivity.start(LoginActivity.this);
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        keyValueDatabase.close();
     }
 }

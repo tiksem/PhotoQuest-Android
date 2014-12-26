@@ -12,5 +12,7 @@ public class GetParams<T> {
     public SortedMap<String, Object> params;
     public Class<T> aClass;
     public long cachingTime = -1;
-    public OnFinish<T> onFinish;
+    public OnFinished onFinish;
+    public OnSuccess<T> onSuccess;
+    public OnRequestError onError;
 }

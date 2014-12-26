@@ -5,6 +5,7 @@ import com.utils.framework.collections.NavigationList;
 import com.utils.framework.collections.cache.LruCache;
 import com.utils.framework.io.Network;
 import com.utilsframework.android.IOErrorListener;
+import com.utilsframework.android.crop.util.Log;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.threading.Threading;
 import org.apache.http.client.HttpClient;
@@ -86,42 +87,54 @@ public class JsonHttpClient {
 
     public <T> void getList(GetListParams<T> params) {
         get(params.url, params.params, params.aClass, params.key, params.cachingTime,
-                params.onFinish, true);
+                params.onFinish, params.onSuccess, params.onError, true);
     }
 
     public <T> void get(GetParams<T> params) {
         get(params.url, params.params, params.aClass, null,
-                params.cachingTime, params.onFinish, false);
+                params.cachingTime, params.onFinish, params.onSuccess, params.onError, false);
     }
 
     private void get(String url,
                             SortedMap<String, Object> params,
                             final Class aClass,
                             final String key,
-                            final long cachingTime,
-                            final OnFinish onFinish,
+                            long cachingTime,
+                            final OnFinished onFinish,
+                            final OnSuccess onSuccess,
+                            final OnRequestError onError,
                             final boolean list) {
         try {
             url = Network.getUrl(url, params);
         } catch (IOException e) {
-            executeIoErrorListener(e);
-            if (!list) {
-                onFinish.onFinish(null);
-            } else {
-                onFinish.onFinish(new ArrayList<Object>());
-            }
+            throw new RuntimeException(e);
         }
+
         final String finalUrl = url;
         CacheResult cacheResult = cache.get(url);
-        if(cacheResult != null){
-            onFinish.onFinish(cacheResult.value);
-            handler.removeCallbacks(cacheResult.deleteCallback);
+        if(cachingTime < 0){
+            cachingTime = getDefaultCachingTime();
+        }
 
-            addDeleteFromCacheCallback(cachingTime, cacheResult, finalUrl);
+        if(cacheResult != null){
+            if (onSuccess != null) {
+                onSuccess.onSuccess(cacheResult.value);
+            }
+            if (onFinish != null) {
+                onFinish.onFinished();
+            }
+
+            if (cachingTime > 0) {
+                handler.removeCallbacks(cacheResult.deleteCallback);
+                addDeleteFromCacheCallback(cachingTime, cacheResult, finalUrl);
+            } else {
+                cache.remove(finalUrl);
+            }
 
             return;
         }
 
+        final long finalCachingTime = cachingTime;
         Threading.getResultAsync(new Threading.ResultProvider<Object>() {
             @Override
             public Object get() {
@@ -133,24 +146,48 @@ public class JsonHttpClient {
                         return Json.readList(json, key, aClass);
                     }
                 } catch (IOException e) {
+                    Log.e(finalUrl, e);
                     executeIoErrorListener(e);
-                    return null;
+                    return e;
                 }
             }
         }, new OnFinish<Object>() {
             @Override
             public void onFinish(Object result) {
-                if (result != null) {
-                    CacheResult cacheResult = new CacheResult();
-                    cacheResult.value = result;
-                    cacheResult.aClass = aClass;
+                if(result instanceof IOException){
+                    if (onError != null) {
+                        IOException exception = (IOException) result;
+                        ExceptionInfo info = null;
+                        if(result instanceof RequestException){
+                            RequestException requestException = (RequestException) exception;
+                            info = requestException.getExceptionInfo();
+                        }
 
-                    addDeleteFromCacheCallback(cachingTime, cacheResult, finalUrl);
-                } else if(list) {
-                    result = new ArrayList<Object>();
+                        onError.onError(exception, info);
+                    }
+                } else {
+                    if (finalCachingTime != 0) {
+                        long cachingTime = finalCachingTime;
+                        if(cachingTime < 0){
+                            cachingTime = getDefaultCachingTime();
+                        }
+
+                        CacheResult cacheResult = new CacheResult();
+                        cacheResult.value = result;
+                        cacheResult.aClass = aClass;
+
+                        addDeleteFromCacheCallback(cachingTime, cacheResult, finalUrl);
+                        cache.put(finalUrl, cacheResult);
+                    }
+
+                    if(onSuccess != null){
+                        onSuccess.onSuccess(result);
+                    }
                 }
 
-                onFinish.onFinish(result);
+                if (onFinish != null) {
+                    onFinish.onFinished();
+                }
             }
         });
     }
@@ -174,15 +211,40 @@ public class JsonHttpClient {
                 }
 
                 JsonHttpClient.this.get(params.url, urlParams, params.aClass,
-                        params.key, params.cachingTime, new OnFinish() {
+                        params.key, params.cachingTime, null, new OnSuccess() {
                             @Override
-                            public void onFinish(Object result) {
+                            public void onSuccess(Object result) {
                                 List<T> list = (List<T>) result;
                                 onPageLoadingFinished.onLoadingFinished(list, list.size() < params.limit);
+                                if (params.onPageLoaded != null) {
+                                    params.onPageLoaded.onPageLoaded();
+                                }
                             }
-                        }, true);
+                        }, params.onError, true);
+            }
+
+            @Override
+            protected void onAllDataLoaded() {
+                if(params.onAllDataLoaded != null){
+                    params.onAllDataLoaded.onAllDataLoaded();
+                }
             }
         };
+    }
+
+    public void removeFromCache(String url, SortedMap<String, Object> params) {
+        try {
+            url = Network.getUrl(url, params);
+            cache.remove(url);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public void removeFromCache(String url, Map<String, Object> params, int offset, int limit) {
+        SortedMap<String, Object> urlParams = getLimitOffsetMap(offset, limit);
+        urlParams.putAll(params);
+        removeFromCache(url, urlParams);
     }
 
     private void executeIoErrorListener(final IOException e) {

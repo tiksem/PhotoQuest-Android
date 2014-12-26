@@ -12,5 +12,8 @@ public class GetNavigationListParams<T> {
     public Class<T> aClass;
     public long cachingTime;
     public long offset;
-    public long limit;
+    public long limit = 10;
+    public OnRequestError onError;
+    public OnAllDataLoaded onAllDataLoaded;
+    public OnPageLoaded onPageLoaded;
 }

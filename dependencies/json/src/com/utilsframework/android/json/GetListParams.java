@@ -1,7 +1,5 @@
 package com.utilsframework.android.json;
 
-import com.utilsframework.android.threading.OnFinish;
-
 import java.util.List;
 import java.util.SortedMap;
 
@@ -14,5 +12,7 @@ public class GetListParams<T> {
     public String key;
     public Class<T> aClass;
     public long cachingTime = -1;
-    public OnFinish<List<T>> onFinish;
+    public OnFinished onFinish;
+    public OnRequestError onError;
+    public OnSuccess<List<T>> onSuccess;
 }

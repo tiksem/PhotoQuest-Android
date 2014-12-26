@@ -9,6 +9,7 @@ import com.utils.framework.collections.cache.GlobalStringCache;
 public class User implements WithAvatar {
     private static final GlobalStringCache STRING_CACHE = GlobalStringCache.getInstance();
 
+    private Long id;
     private Long avatarId;
     private String name;
     private String lastName;
@@ -54,5 +55,13 @@ public class User implements WithAvatar {
 
     public void setCity(String city) {
         this.city = STRING_CACHE.putOrGet(city);;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }

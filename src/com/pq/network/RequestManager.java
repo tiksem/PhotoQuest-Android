@@ -18,6 +18,7 @@ public class RequestManager implements ImageUrlProvider {
 
     public RequestManager(String rootUrl) {
         this.rootUrl = rootUrl;
+        httpClient.setDefaultCachingTime(5 * 60 * 1000);
     }
 
     @Override
@@ -36,7 +37,6 @@ public class RequestManager implements ImageUrlProvider {
         params.limit = 10;
         params.key = "users";
         params.aClass = User.class;
-        params.cachingTime = 5 * 60 * 1000;
         params.onAllDataLoaded = onAllDataLoaded;
         return httpClient.getNavigationList(params);
     }
@@ -47,8 +47,21 @@ public class RequestManager implements ImageUrlProvider {
         params.limit = 10;
         params.key = "quests";
         params.aClass = Photoquest.class;
-        params.cachingTime = 5 * 60 * 1000;
         params.onAllDataLoaded = onAllDataLoaded;
+        return httpClient.getNavigationList(params);
+    }
+
+    public NavigationList<Photoquest> getCreatedPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
+        GetNavigationListParams<Photoquest> params = new GetNavigationListParams<Photoquest>();
+        params.url = rootUrl + "//getCreatedPhotoquests";
+        params.limit = 10;
+        params.key = "quests";
+        params.aClass = Photoquest.class;
+        params.onAllDataLoaded = onAllDataLoaded;
+
+        params.params = new TreeMap<String, Object>();
+        params.params.put("userId", signedInUser.getId());
+
         return httpClient.getNavigationList(params);
     }
 

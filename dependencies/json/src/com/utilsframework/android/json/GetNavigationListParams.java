@@ -10,7 +10,7 @@ public class GetNavigationListParams<T> {
     public Map<String, Object> params;
     public String key;
     public Class<T> aClass;
-    public long cachingTime;
+    public long cachingTime = -1;
     public long offset;
     public long limit = 10;
     public OnRequestError onError;

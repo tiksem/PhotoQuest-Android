@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import com.pq.R;
+import com.pq.fragments.LogoutFragment;
 import com.pq.fragments.PeopleFragment;
 import com.pq.fragments.PhotoquestsFragment;
 import com.utilsframework.android.navigation.NavigationDrawerActivity;
@@ -33,6 +34,8 @@ public class MainActivity extends NavigationDrawerActivity {
             return new PeopleFragment();
         } else if(selectedItemId == R.id.photoquests) {
             return new PhotoquestsFragment();
+        } else if(selectedItemId == R.id.log_out) {
+            return new LogoutFragment();
         }
 
         return null;

@@ -5,4 +5,7 @@
     <string name="sign_up_button">Sign Up</string>
     <string name="people">People</string>
     <string name="photoquests">Photoquests</string>
+    <string name="log_out">Log out</string>
+    <string name="logout_progress_message">Logging out</string>
+    <string name="login_progress_message">Loging in...</string>
 </resources>

@@ -93,6 +93,16 @@ public class RequestManager implements ImageUrlProvider {
         httpClient.get(params);
     }
 
+    public void logout(OnFinished onFinished) {
+        final GetParams<Object> params = new GetParams<Object>();
+        params.aClass = Object.class;
+        params.onFinish = onFinished;
+        params.cachingTime = 0;
+        params.url = rootUrl + "//logout";
+
+        httpClient.get(params);
+    }
+
     public User getSignedInUser() {
         return signedInUser;
     }

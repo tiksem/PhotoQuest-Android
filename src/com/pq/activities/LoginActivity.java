@@ -1,6 +1,9 @@
 package com.pq.activities;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -13,6 +16,7 @@ import com.utilsframework.android.db.SQLiteKeyValueDatabase;
 import com.utilsframework.android.json.ExceptionInfo;
 import com.utilsframework.android.threading.OnComplete;
 import com.utilsframework.android.threading.Threading;
+import com.utilsframework.android.view.Alerts;
 
 import java.io.IOException;
 
@@ -22,6 +26,7 @@ import java.io.IOException;
 public class LoginActivity extends Activity implements RequestManager.LoginListener {
     private KeyValueDatabase keyValueDatabase;
     private RequestManager requestManager;
+    private ProgressDialog progressDialog;
 
     private void tryLoginFromCookies() {
         String login = keyValueDatabase.get("login");
@@ -41,6 +46,7 @@ public class LoginActivity extends Activity implements RequestManager.LoginListe
     }
 
     private void login(String login, String password) {
+        progressDialog = Alerts.showCircleProgressDialog(this, getString(R.string.login_progress_message));
         requestManager.login(login, password, this);
     }
 
@@ -74,6 +80,7 @@ public class LoginActivity extends Activity implements RequestManager.LoginListe
 
     @Override
     public void onLoginRequestError(IOException e, ExceptionInfo info) {
+        progressDialog.dismiss();
         throw new RuntimeException(e);
     }
 
@@ -88,6 +95,7 @@ public class LoginActivity extends Activity implements RequestManager.LoginListe
         }, new OnComplete() {
             @Override
             public void onFinish() {
+                progressDialog.dismiss();
                 LoginActivity.this.finish();
                 MainActivity.start(LoginActivity.this);
             }
@@ -98,5 +106,10 @@ public class LoginActivity extends Activity implements RequestManager.LoginListe
     protected void onDestroy() {
         super.onDestroy();
         keyValueDatabase.close();
+    }
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, LoginActivity.class);
+        context.startActivity(intent);
     }
 }

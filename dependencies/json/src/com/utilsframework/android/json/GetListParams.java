@@ -11,7 +11,7 @@ public class GetListParams<T> {
     public SortedMap<String, Object> params;
     public String key;
     public Class<T> aClass;
-    public long cachingTime = -1;
+    public long cachingTime = 0;
     public OnFinished onFinish;
     public OnRequestError onError;
     public OnSuccess<List<T>> onSuccess;

@@ -4,6 +4,7 @@ import android.os.Handler;
 import com.utils.framework.collections.NavigationList;
 import com.utils.framework.collections.cache.LruCache;
 import com.utils.framework.io.Network;
+import com.utilsframework.android.ExecuteTimeLogger;
 import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.crop.util.Log;
 import com.utilsframework.android.threading.OnFinish;
@@ -139,12 +140,19 @@ public class JsonHttpClient {
             @Override
             public Object get() {
                 try {
+                    ExecuteTimeLogger.timeStart("request " + finalUrl);
                     String json = Network.executeGetRequest(httpClient, finalUrl);
+                    ExecuteTimeLogger.timeEnd("request " + finalUrl);
+                    ExecuteTimeLogger.timeStart("parse " + finalUrl);
+
+                    Object result;
                     if (!list) {
-                        return Json.read(json, aClass);
+                        result = Json.read(json, aClass);
                     } else {
-                        return Json.readList(json, key, aClass);
+                        result = Json.readList(json, key, aClass);
                     }
+                    ExecuteTimeLogger.timeEnd("parse " + finalUrl);
+                    return result;
                 } catch (IOException e) {
                     Log.e(finalUrl, e);
                     executeIoErrorListener(e);

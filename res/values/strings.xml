@@ -12,4 +12,7 @@
     <string name="created">Created</string>
     <string name="following">Following</string>
     <string name="performed">Performed</string>
+    <string name="friends">Friends</string>
+    <string name="received_requests">Received Requests</string>
+    <string name="sent_requests">Sent Requests</string>
 </resources>

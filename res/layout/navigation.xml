@@ -19,6 +19,13 @@
               android:layout_width="match_parent"
               android:paddingLeft="10dp"
               android:layout_height="50dp"/>
+    <TextView android:id="@+id/friends"
+              android:text="@string/friends"
+              android:textColor="@color/white"
+              android:gravity="center_vertical"
+              android:layout_width="match_parent"
+              android:paddingLeft="10dp"
+              android:layout_height="50dp"/>
     <TextView android:id="@+id/log_out"
               android:text="@string/log_out"
               android:textColor="@color/white"

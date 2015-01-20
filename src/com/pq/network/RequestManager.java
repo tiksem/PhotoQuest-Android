@@ -31,14 +31,30 @@ public class RequestManager implements ImageUrlProvider {
         return getImageUrl(imageId) + "?size=" + size;
     }
 
-    public NavigationList<User> getUsersNavigationList(OnAllDataLoaded onAllDataLoaded) {
+    public NavigationList<User> getUsersNavigationList(OnAllDataLoaded onAllDataLoaded, String url) {
         GetNavigationListParams<User> params = new GetNavigationListParams<User>();
-        params.url = rootUrl + "//users";
+        params.url = rootUrl + url;
         params.limit = 10;
         params.key = "users";
         params.aClass = User.class;
         params.onAllDataLoaded = onAllDataLoaded;
         return httpClient.getNavigationList(params);
+    }
+
+    public NavigationList<User> getUsersNavigationList(OnAllDataLoaded onAllDataLoaded) {
+        return getUsersNavigationList(onAllDataLoaded, "//users");
+    }
+
+    public NavigationList<User> getFriendsNavigationList(OnAllDataLoaded onAllDataLoaded) {
+        return getUsersNavigationList(onAllDataLoaded, "//friends");
+    }
+
+    public NavigationList<User> getReceivedRequestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
+        return getUsersNavigationList(onAllDataLoaded, "//getReceivedFriendRequests");
+    }
+
+    public NavigationList<User> getSentRequestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
+        return getUsersNavigationList(onAllDataLoaded, "//getSentFriendRequests");
     }
 
     private GetNavigationListParams<Photoquest>

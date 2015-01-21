@@ -11,6 +11,6 @@ import com.utilsframework.android.json.OnAllDataLoaded;
 public class SentRequestsFragment extends UsersFragment {
     @Override
     protected NavigationList<User> getNavigationList(RequestManager requestManager, OnAllDataLoaded onAllDataLoaded) {
-        return requestManager.getSentRequestsNavigationList(onAllDataLoaded);
+        return requestManager.getSentRequests(onAllDataLoaded);
     }
 }

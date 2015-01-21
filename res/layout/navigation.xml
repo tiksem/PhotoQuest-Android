@@ -5,6 +5,13 @@
               android:background="@color/black"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <TextView android:id="@+id/profile"
+              android:textColor="@color/white"
+              android:text="@string/profile"
+              android:gravity="center_vertical"
+              android:layout_width="match_parent"
+              android:paddingLeft="10dp"
+              android:layout_height="50dp"/>
     <TextView android:id="@+id/people"
               android:textColor="@color/white"
               android:text="@string/people"

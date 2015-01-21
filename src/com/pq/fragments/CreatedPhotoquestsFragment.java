@@ -12,6 +12,6 @@ public class CreatedPhotoquestsFragment extends PhotoquestsFragment {
     @Override
     protected NavigationList<Photoquest> getNavigationList(RequestManager requestManager,
                                                            OnAllDataLoaded onAllDataLoaded) {
-        return requestManager.getCreatedPhotoquestsNavigationList(onAllDataLoaded);
+        return requestManager.getCreatedPhotoquests(onAllDataLoaded);
     }
 }

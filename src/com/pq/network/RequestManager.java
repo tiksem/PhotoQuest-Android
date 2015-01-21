@@ -1,11 +1,15 @@
 package com.pq.network;
 
+import com.pq.data.Feed;
 import com.pq.data.Photoquest;
 import com.pq.data.User;
+import com.utils.framework.Predicate;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.json.*;
 
 import java.io.IOException;
+import java.util.Collections;
+import java.util.Map;
 import java.util.TreeMap;
 
 /**
@@ -31,7 +35,7 @@ public class RequestManager implements ImageUrlProvider {
         return getImageUrl(imageId) + "?size=" + size;
     }
 
-    public NavigationList<User> getUsersNavigationList(OnAllDataLoaded onAllDataLoaded, String url) {
+    private NavigationList<User> getUsers(OnAllDataLoaded onAllDataLoaded, String url) {
         GetNavigationListParams<User> params = new GetNavigationListParams<User>();
         params.url = rootUrl + url;
         params.limit = 10;
@@ -41,20 +45,20 @@ public class RequestManager implements ImageUrlProvider {
         return httpClient.getNavigationList(params);
     }
 
-    public NavigationList<User> getUsersNavigationList(OnAllDataLoaded onAllDataLoaded) {
-        return getUsersNavigationList(onAllDataLoaded, "//users");
+    public NavigationList<User> getUsers(OnAllDataLoaded onAllDataLoaded) {
+        return getUsers(onAllDataLoaded, "//users");
     }
 
-    public NavigationList<User> getFriendsNavigationList(OnAllDataLoaded onAllDataLoaded) {
-        return getUsersNavigationList(onAllDataLoaded, "//friends");
+    public NavigationList<User> getFriends(OnAllDataLoaded onAllDataLoaded) {
+        return getUsers(onAllDataLoaded, "//friends");
     }
 
-    public NavigationList<User> getReceivedRequestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
-        return getUsersNavigationList(onAllDataLoaded, "//getReceivedFriendRequests");
+    public NavigationList<User> getReceivedRequests(OnAllDataLoaded onAllDataLoaded) {
+        return getUsers(onAllDataLoaded, "//getReceivedFriendRequests");
     }
 
-    public NavigationList<User> getSentRequestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
-        return getUsersNavigationList(onAllDataLoaded, "//getSentFriendRequests");
+    public NavigationList<User> getSentRequests(OnAllDataLoaded onAllDataLoaded) {
+        return getUsers(onAllDataLoaded, "//getSentFriendRequests");
     }
 
     private GetNavigationListParams<Photoquest>
@@ -71,27 +75,27 @@ public class RequestManager implements ImageUrlProvider {
         return params;
     }
 
-    public NavigationList<Photoquest> getPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded,
-                                                                   String url) {
+    public NavigationList<Photoquest> getPhotoquests(OnAllDataLoaded onAllDataLoaded,
+                                                     String url) {
         GetNavigationListParams<Photoquest> params = initPhotoquestsNavigationListParams(onAllDataLoaded);
         params.url = rootUrl + url;
         return httpClient.getNavigationList(params);
     }
 
-    public NavigationList<Photoquest> getAllPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
-        return getPhotoquestsNavigationList(onAllDataLoaded, "//getPhotoquests");
+    public NavigationList<Photoquest> getAllPhotoquests(OnAllDataLoaded onAllDataLoaded) {
+        return getPhotoquests(onAllDataLoaded, "//getPhotoquests");
     }
 
-    public NavigationList<Photoquest> getCreatedPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
-        return getPhotoquestsNavigationList(onAllDataLoaded, "//getCreatedPhotoquests");
+    public NavigationList<Photoquest> getCreatedPhotoquests(OnAllDataLoaded onAllDataLoaded) {
+        return getPhotoquests(onAllDataLoaded, "//getCreatedPhotoquests");
     }
 
-    public NavigationList<Photoquest> getPerformedPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
-        return getPhotoquestsNavigationList(onAllDataLoaded, "//getPerformedPhotoquests");
+    public NavigationList<Photoquest> getPerformedPhotoquests(OnAllDataLoaded onAllDataLoaded) {
+        return getPhotoquests(onAllDataLoaded, "//getPerformedPhotoquests");
     }
 
-    public NavigationList<Photoquest> getFollowingPhotoquestsNavigationList(OnAllDataLoaded onAllDataLoaded) {
-        return getPhotoquestsNavigationList(onAllDataLoaded, "//getFollowingPhotoquests");
+    public NavigationList<Photoquest> getFollowingPhotoquests(OnAllDataLoaded onAllDataLoaded) {
+        return getPhotoquests(onAllDataLoaded, "//getFollowingPhotoquests");
     }
 
     public interface LoginListener {
@@ -109,6 +113,7 @@ public class RequestManager implements ImageUrlProvider {
         params.params = new TreeMap<String, Object>();
         params.params.put("login", login);
         params.params.put("password", password);
+        params.params.put("mobile", "true");
 
         params.onFinish = new OnFinished() {
             @Override
@@ -143,6 +148,51 @@ public class RequestManager implements ImageUrlProvider {
         params.url = rootUrl + "//logout";
 
         httpClient.get(params);
+    }
+
+    private NavigationList<Feed> getFeed(OnAllDataLoaded onAllDataLoaded,
+                                         Predicate<Feed> addElementPredicate,
+                                         Map<String, Object> args) {
+        GetNavigationListParams<Feed> params = new GetNavigationListParams<Feed>();
+        params.url = rootUrl + "//getNews";
+        params.limit = 10;
+        params.key = "feeds";
+        params.aClass = Feed.class;
+        params.params = args;
+        params.onAllDataLoaded = onAllDataLoaded;
+        params.addElementPredicate = addElementPredicate;
+        return httpClient.getNavigationList(params);
+    }
+
+    public NavigationList<Feed> getUserActivity(OnAllDataLoaded onAllDataLoaded, long userId) {
+        Long signedInUserId = signedInUser.getId();
+        if(userId < 0){
+            userId = signedInUserId;
+        }
+
+        Predicate<Feed> addElementPredicate = null;
+        if(userId == signedInUserId){
+            addElementPredicate = new Predicate<Feed>() {
+                @Override
+                public boolean check(Feed item) {
+                    item.setUserName(signedInUser.getName());
+                    item.setAvatarId(signedInUser.getAvatarId());
+                    return true;
+                }
+            };
+        }
+
+        return getFeed(onAllDataLoaded,
+                addElementPredicate,
+                Collections.<String, Object>singletonMap("userId", userId));
+    }
+
+    public NavigationList<Feed> getUserActivity(OnAllDataLoaded onAllDataLoaded) {
+        return getUserActivity(onAllDataLoaded, -1);
+    }
+
+    public NavigationList<Feed> getNews(OnAllDataLoaded onAllDataLoaded) {
+        return getFeed(onAllDataLoaded, null, Collections.<String, Object>emptyMap());
     }
 
     public User getSignedInUser() {

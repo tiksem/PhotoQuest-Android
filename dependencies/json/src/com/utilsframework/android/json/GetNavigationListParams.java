@@ -1,5 +1,7 @@
 package com.utilsframework.android.json;
 
+import com.utils.framework.Predicate;
+
 import java.util.Map;
 
 /**
@@ -16,4 +18,5 @@ public class GetNavigationListParams<T> {
     public OnRequestError onError;
     public OnAllDataLoaded onAllDataLoaded;
     public OnPageLoaded onPageLoaded;
+    public Predicate<T> addElementPredicate;
 }

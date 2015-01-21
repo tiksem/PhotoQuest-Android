@@ -1,16 +1,19 @@
 package com.utilsframework.android.json;
 
 import android.os.Handler;
+import android.util.Log;
+import com.example.json.BuildConfig;
 import com.utils.framework.collections.NavigationList;
 import com.utils.framework.collections.cache.LruCache;
 import com.utils.framework.io.Network;
 import com.utilsframework.android.ExecuteTimeLogger;
 import com.utilsframework.android.IOErrorListener;
-import com.utilsframework.android.crop.util.Log;
 import com.utilsframework.android.threading.OnFinish;
 import com.utilsframework.android.threading.Threading;
 import org.apache.http.client.HttpClient;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.util.*;
@@ -19,12 +22,16 @@ import java.util.*;
  * Created by CM on 12/21/2014.
  */
 public class JsonHttpClient {
+    private static final String TAG = "JsonHttpClient";
+    private static final boolean LOG_JSON = BuildConfig.DEBUG;
+
     private LruCache<String, CacheResult> cache = new LruCache<String, CacheResult>(5 * 1024 * 1024);
     private long defaultCachingTime = 60 * 1000;
     private int defaultEntitySize = 500;
     private HttpClient httpClient;
     private IOErrorListener ioErrorListener;
     private Handler handler = new Handler();
+    private boolean binaryServerResponse = false;
 
     public JsonHttpClient() {
         cache = new LruCache<String, CacheResult>(5 * 1024 * 1024){
@@ -143,8 +150,16 @@ public class JsonHttpClient {
                     ExecuteTimeLogger.timeStart("request " + finalUrl);
                     String json = Network.executeGetRequest(httpClient, finalUrl);
                     ExecuteTimeLogger.timeEnd("request " + finalUrl);
-                    ExecuteTimeLogger.timeStart("parse " + finalUrl);
 
+                    if(LOG_JSON){
+                        try {
+                            Log.i(TAG, finalUrl + ":\n" + new JSONObject(json).toString(1));
+                        } catch (JSONException e) {
+
+                        }
+                    }
+
+                    ExecuteTimeLogger.timeStart("parse " + finalUrl);
                     Object result;
                     if (!list) {
                         result = Json.read(json, aClass);
@@ -154,7 +169,6 @@ public class JsonHttpClient {
                     ExecuteTimeLogger.timeEnd("parse " + finalUrl);
                     return result;
                 } catch (IOException e) {
-                    Log.e(finalUrl, e);
                     executeIoErrorListener(e);
                     return e;
                 }
@@ -237,6 +251,15 @@ public class JsonHttpClient {
                     params.onAllDataLoaded.onAllDataLoaded();
                 }
             }
+
+            @Override
+            protected boolean shouldAddElement(T element) {
+                if (params.addElementPredicate == null) {
+                    return super.shouldAddElement(element);
+                } else {
+                    return params.addElementPredicate.check(element);
+                }
+            }
         };
     }
 
@@ -264,6 +287,18 @@ public class JsonHttpClient {
                 }
             });
         }
+    }
+
+    public boolean isBinaryServerResponse() {
+        return binaryServerResponse;
+    }
+
+    public void setBinaryServerResponse(boolean binaryServerResponse) {
+        this.binaryServerResponse = binaryServerResponse;
+    }
+
+    public HttpClient getHttpClient() {
+        return httpClient;
     }
 
     public IOErrorListener getIoErrorListener() {

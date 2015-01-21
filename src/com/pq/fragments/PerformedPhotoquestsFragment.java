@@ -11,6 +11,6 @@ import com.utilsframework.android.json.OnAllDataLoaded;
 public class PerformedPhotoquestsFragment extends PhotoquestsFragment {
     @Override
     protected NavigationList<Photoquest> getNavigationList(RequestManager requestManager, OnAllDataLoaded onAllDataLoaded) {
-        return requestManager.getPerformedPhotoquestsNavigationList(onAllDataLoaded);
+        return requestManager.getPerformedPhotoquests(onAllDataLoaded);
     }
 }

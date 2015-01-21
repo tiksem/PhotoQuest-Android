@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:orientation="vertical"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+    <ImageView
+            android:id="@+id/avatar"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:src="@drawable/empty_avatar"/>
+    <TextView android:id="@+id/name"
+              android:text="Ivan Eblan"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+    <ImageView android:id="@+id/image"
+               android:src="@drawable/empty_avatar"
+               android:layout_width="300dp"
+               android:layout_height="300dp"/>
+    <TextView android:id="@+id/likesCount"
+              android:text="@string/like_it"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+    <TextView android:id="@+id/date"
+              android:text="01 Jan 2015 at 20:34"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+    <TextView android:id="@+id/description"
+              android:text="Published photo on Avatar  photoquest"
+              android:layout_width="wrap_content"
+              android:layout_height="wrap_content"/>
+</LinearLayout>

@@ -12,6 +12,6 @@ public class FriendsFragment extends UsersFragment {
     @Override
     protected NavigationList<User> getNavigationList(RequestManager requestManager,
                                                      OnAllDataLoaded onAllDataLoaded) {
-        return requestManager.getFriendsNavigationList(onAllDataLoaded);
+        return requestManager.getFriends(onAllDataLoaded);
     }
 }

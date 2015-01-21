@@ -62,6 +62,8 @@ public class MainActivity extends NavigationDrawerActivity {
             } else if(tabIndex == SENT_REQUESTS_TAB) {
                 return new SentRequestsFragment();
             }
+        } else if(selectedItemId == R.id.profile) {
+            return ProfileFragment.create(-1);
         }
 
         return null;

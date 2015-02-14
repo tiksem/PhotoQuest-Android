@@ -39,13 +39,17 @@ public class PhotoquestsAdapter extends ViewArrayAdapter<Photoquest, PhotoquestH
         PhotoquestHolder holder = new PhotoquestHolder();
         holder.avatar = (ImageView) view.findViewById(R.id.avatar);
         holder.name = (TextView) view.findViewById(R.id.name);
+        holder.userName = (TextView) view.findViewById(R.id.userName);
+        holder.viewsCount = (TextView) view.findViewById(R.id.viewsCount);
         return holder;
     }
 
     @Override
-    protected void reuseView(Photoquest photoquest, PhotoquestHolder photoquestHolder, int position, View view) {
-        photoquestHolder.name.setText(photoquest.getName());
-        Images.displayAvatar(imageUrlProvider, photoquestHolder.avatar, photoquest.getAvatarId(),
+    protected void reuseView(Photoquest photoquest, PhotoquestHolder holder, int position, View view) {
+        holder.name.setText(photoquest.getName());
+        holder.userName.setText(photoquest.getCreatedBy());
+        holder.viewsCount.setText(String.valueOf(photoquest.getViewsCount()));
+        Images.displayAvatar(imageUrlProvider, holder.avatar, photoquest.getAvatarId(),
                 AVATAR_SIZE);
     }
 }

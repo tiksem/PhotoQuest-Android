@@ -4,3 +4,6 @@
 [submodule "dependencies/general-utils"]
 	path = dependencies/general-utils
 	url = https://badmenltd@code.google.com/p/shalk-general/
+[submodule "dependencies/jsonutils"]
+	path = dependencies/jsonutils
+	url = https://privetgnil@code.google.com/p/jsvdulloc/

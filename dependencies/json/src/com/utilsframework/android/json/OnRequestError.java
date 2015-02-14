@@ -1,5 +1,7 @@
 package com.utilsframework.android.json;
 
+import com.jsonutils.ExceptionInfo;
+
 import java.io.IOException;
 
 /**

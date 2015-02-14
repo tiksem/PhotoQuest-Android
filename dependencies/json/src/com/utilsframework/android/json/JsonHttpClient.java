@@ -3,7 +3,11 @@ package com.utilsframework.android.json;
 import android.os.Handler;
 import android.util.Log;
 import com.example.json.BuildConfig;
+import com.jsonutils.ExceptionInfo;
+import com.jsonutils.Json;
+import com.jsonutils.RequestException;
 import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.OnLoadingFinished;
 import com.utils.framework.collections.cache.LruCache;
 import com.utils.framework.io.Network;
 import com.utilsframework.android.ExecuteTimeLogger;
@@ -166,11 +170,12 @@ public class JsonHttpClient {
                     } else {
                         result = Json.readList(json, key, aClass);
                     }
-                    ExecuteTimeLogger.timeEnd("parse " + finalUrl);
                     return result;
                 } catch (IOException e) {
                     executeIoErrorListener(e);
                     return e;
+                } finally {
+                    ExecuteTimeLogger.timeEnd("parse " + finalUrl);
                 }
             }
         }, new OnFinish<Object>() {
@@ -224,8 +229,8 @@ public class JsonHttpClient {
     public <T> NavigationList<T> getNavigationList(final GetNavigationListParams<T> params) {
         return new NavigationList<T>(500) {
             @Override
-            protected void getElementsOfPage(int pageNumber,
-                                             final OnPageLoadingFinished<T> onPageLoadingFinished) {
+            public void getElementsOfPage(int pageNumber,
+                                             final OnLoadingFinished<T> onPageLoadingFinished) {
                 long offset = params.offset + params.limit * pageNumber;
                 SortedMap<String, Object> urlParams = getLimitOffsetMap(offset, params.limit);
                 if(params.params != null){

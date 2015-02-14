@@ -7,13 +7,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import com.jsonutils.ExceptionInfo;
 import com.pq.R;
 import com.pq.app.PhotoQuestApp;
 import com.pq.data.User;
 import com.pq.network.RequestManager;
 import com.utilsframework.android.db.KeyValueDatabase;
 import com.utilsframework.android.db.SQLiteKeyValueDatabase;
-import com.utilsframework.android.json.ExceptionInfo;
 import com.utilsframework.android.threading.OnComplete;
 import com.utilsframework.android.threading.Threading;
 import com.utilsframework.android.view.Alerts;
@@ -81,7 +81,10 @@ public class LoginActivity extends Activity implements RequestManager.LoginListe
     @Override
     public void onLoginRequestError(IOException e, ExceptionInfo info) {
         progressDialog.dismiss();
-        throw new RuntimeException(e);
+        Alerts.showOkButtonAlert(this, e.getMessage());
+        keyValueDatabase.set("login", null);
+        keyValueDatabase.set("password", null);
+        initLoginForm();
     }
 
     @Override

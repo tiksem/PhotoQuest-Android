@@ -1,5 +1,6 @@
 package com.pq.network;
 
+import com.jsonutils.ExceptionInfo;
 import com.pq.data.Feed;
 import com.pq.data.Photoquest;
 import com.pq.data.User;
@@ -27,7 +28,7 @@ public class RequestManager implements ImageUrlProvider {
 
     @Override
     public String getImageUrl(long imageId) {
-        return rootUrl + "/image/" + imageId;
+        return rootUrl + "/image/" + imageId + ".jpg";
     }
 
     @Override
@@ -175,7 +176,7 @@ public class RequestManager implements ImageUrlProvider {
             addElementPredicate = new Predicate<Feed>() {
                 @Override
                 public boolean check(Feed item) {
-                    item.setUserName(signedInUser.getName());
+                    item.setUserName(signedInUser.getName() + " " + signedInUser.getLastName());
                     item.setAvatarId(signedInUser.getAvatarId());
                     return true;
                 }

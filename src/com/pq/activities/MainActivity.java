@@ -18,10 +18,9 @@ public class MainActivity extends NavigationDrawerActivity {
     private static final int FOLLOWING_PHOTOQUESTS_TAB = 3;
     private static final int PHOTOQUEST_TABS_COUNT = 4;
 
-    private static final int FRIENDS_TAB = 0;
-    private static final int SENT_REQUESTS_TAB = 1;
-    private static final int RECEIVED_REQUESTS_TAB = 2;
-    private static final int FRIENDS_TABS_COUNT = 3;
+    private static final int SENT_REQUESTS_TAB = 0;
+    private static final int RECEIVED_REQUESTS_TAB = 1;
+    private static final int REQUESTS_TABS_COUNT = 2;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
@@ -54,16 +53,16 @@ public class MainActivity extends NavigationDrawerActivity {
             }
         } else if(selectedItemId == R.id.log_out) {
             return new LogoutFragment();
-        } else if(selectedItemId == R.id.friends) {
-            if(tabIndex == FRIENDS_TAB){
-                return new FriendsFragment();
-            } else if(tabIndex == RECEIVED_REQUESTS_TAB) {
+        } else if(selectedItemId == R.id.requests) {
+            if(tabIndex == RECEIVED_REQUESTS_TAB) {
                 return new ReceivedRequestsFragment();
             } else if(tabIndex == SENT_REQUESTS_TAB) {
                 return new SentRequestsFragment();
             }
         } else if(selectedItemId == R.id.profile) {
             return ProfileFragment.create(-1);
+        } else if(selectedItemId == R.id.friends) {
+            return new FriendsFragment();
         }
 
         return null;
@@ -81,10 +80,8 @@ public class MainActivity extends NavigationDrawerActivity {
             } else if(tabIndex == PERFORMED_PHOTOQUESTS_TAB) {
                 tab.setText(R.string.performed);
             }
-        } else if(currentSelectedItem == R.id.friends) {
-            if(tabIndex == FRIENDS_TAB){
-                tab.setText(R.string.friends);
-            } else if(tabIndex == RECEIVED_REQUESTS_TAB) {
+        } else if(currentSelectedItem == R.id.requests) {
+            if(tabIndex == RECEIVED_REQUESTS_TAB) {
                 tab.setText(R.string.received_requests);
             } else if(tabIndex == SENT_REQUESTS_TAB) {
                 tab.setText(R.string.sent_requests);
@@ -96,8 +93,8 @@ public class MainActivity extends NavigationDrawerActivity {
     public int getTabsCount(int selectedItemId) {
         if(selectedItemId == R.id.photoquests){
             return PHOTOQUEST_TABS_COUNT;
-        } else if(selectedItemId == R.id.friends) {
-            return FRIENDS_TABS_COUNT;
+        } else if(selectedItemId == R.id.requests) {
+            return REQUESTS_TABS_COUNT;
         }
 
         return 1;

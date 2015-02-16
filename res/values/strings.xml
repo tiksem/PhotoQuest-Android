@@ -13,11 +13,12 @@
     <string name="following">Following</string>
     <string name="performed">Performed</string>
     <string name="friends">Friends</string>
-    <string name="received_requests">Received Requests</string>
-    <string name="sent_requests">Sent Requests</string>
+    <string name="received_requests">Received</string>
+    <string name="sent_requests">Sent</string>
     <string name="photos">Photos</string>
     <string name="like_it">%d like it!</string>
     <string name="publish_photo_feed_description">Published photo on %s photoquest</string>
     <string name="create_photoquest_feed_description">Created photoquest %s</string>
     <string name="profile">Profile</string>
+    <string name="friend_requests">Friend Requests</string>
 </resources>

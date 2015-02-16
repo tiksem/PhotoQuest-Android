@@ -243,18 +243,8 @@ public class JsonHttpClient {
                             public void onSuccess(Object result) {
                                 List<T> list = (List<T>) result;
                                 onPageLoadingFinished.onLoadingFinished(list, list.size() < params.limit);
-                                if (params.onPageLoaded != null) {
-                                    params.onPageLoaded.onPageLoaded();
-                                }
                             }
                         }, params.onError, true);
-            }
-
-            @Override
-            protected void onAllDataLoaded() {
-                if(params.onAllDataLoaded != null){
-                    params.onAllDataLoaded.onAllDataLoaded();
-                }
             }
 
             @Override

@@ -6,6 +6,7 @@ import com.pq.data.Photoquest;
 import com.pq.data.User;
 import com.utils.framework.Predicate;
 import com.utils.framework.collections.NavigationList;
+import com.utils.framework.collections.OnAllDataLoaded;
 import com.utilsframework.android.json.*;
 
 import java.io.IOException;
@@ -36,39 +37,37 @@ public class RequestManager implements ImageUrlProvider {
         return getImageUrl(imageId) + "?size=" + size;
     }
 
-    private NavigationList<User> getUsers(OnAllDataLoaded onAllDataLoaded, String url) {
+    private NavigationList<User> getUsers(String url) {
         GetNavigationListParams<User> params = new GetNavigationListParams<User>();
         params.url = rootUrl + url;
         params.limit = 10;
         params.key = "users";
         params.aClass = User.class;
-        params.onAllDataLoaded = onAllDataLoaded;
         return httpClient.getNavigationList(params);
     }
 
-    public NavigationList<User> getUsers(OnAllDataLoaded onAllDataLoaded) {
-        return getUsers(onAllDataLoaded, "//users");
+    public NavigationList<User> getUsers() {
+        return getUsers("//users");
     }
 
-    public NavigationList<User> getFriends(OnAllDataLoaded onAllDataLoaded) {
-        return getUsers(onAllDataLoaded, "//friends");
+    public NavigationList<User> getFriends() {
+        return getUsers("//friends");
     }
 
-    public NavigationList<User> getReceivedRequests(OnAllDataLoaded onAllDataLoaded) {
-        return getUsers(onAllDataLoaded, "//getReceivedFriendRequests");
+    public NavigationList<User> getReceivedRequests() {
+        return getUsers("//getReceivedFriendRequests");
     }
 
-    public NavigationList<User> getSentRequests(OnAllDataLoaded onAllDataLoaded) {
-        return getUsers(onAllDataLoaded, "//getSentFriendRequests");
+    public NavigationList<User> getSentRequests() {
+        return getUsers("//getSentFriendRequests");
     }
 
     private GetNavigationListParams<Photoquest>
-    initPhotoquestsNavigationListParams(OnAllDataLoaded onAllDataLoaded) {
+    initPhotoquestsNavigationListParams() {
         GetNavigationListParams<Photoquest> params = new GetNavigationListParams<Photoquest>();
         params.limit = 10;
         params.key = "quests";
         params.aClass = Photoquest.class;
-        params.onAllDataLoaded = onAllDataLoaded;
 
         params.params = new TreeMap<String, Object>();
         params.params.put("userId", signedInUser.getId());
@@ -76,27 +75,26 @@ public class RequestManager implements ImageUrlProvider {
         return params;
     }
 
-    public NavigationList<Photoquest> getPhotoquests(OnAllDataLoaded onAllDataLoaded,
-                                                     String url) {
-        GetNavigationListParams<Photoquest> params = initPhotoquestsNavigationListParams(onAllDataLoaded);
+    public NavigationList<Photoquest> getPhotoquests(String url) {
+        GetNavigationListParams<Photoquest> params = initPhotoquestsNavigationListParams();
         params.url = rootUrl + url;
         return httpClient.getNavigationList(params);
     }
 
-    public NavigationList<Photoquest> getAllPhotoquests(OnAllDataLoaded onAllDataLoaded) {
-        return getPhotoquests(onAllDataLoaded, "//getPhotoquests");
+    public NavigationList<Photoquest> getAllPhotoquests() {
+        return getPhotoquests("//getPhotoquests");
     }
 
-    public NavigationList<Photoquest> getCreatedPhotoquests(OnAllDataLoaded onAllDataLoaded) {
-        return getPhotoquests(onAllDataLoaded, "//getCreatedPhotoquests");
+    public NavigationList<Photoquest> getCreatedPhotoquests() {
+        return getPhotoquests( "//getCreatedPhotoquests");
     }
 
-    public NavigationList<Photoquest> getPerformedPhotoquests(OnAllDataLoaded onAllDataLoaded) {
-        return getPhotoquests(onAllDataLoaded, "//getPerformedPhotoquests");
+    public NavigationList<Photoquest> getPerformedPhotoquests() {
+        return getPhotoquests("//getPerformedPhotoquests");
     }
 
-    public NavigationList<Photoquest> getFollowingPhotoquests(OnAllDataLoaded onAllDataLoaded) {
-        return getPhotoquests(onAllDataLoaded, "//getFollowingPhotoquests");
+    public NavigationList<Photoquest> getFollowingPhotoquests() {
+        return getPhotoquests("//getFollowingPhotoquests");
     }
 
     public interface LoginListener {
@@ -151,8 +149,7 @@ public class RequestManager implements ImageUrlProvider {
         httpClient.get(params);
     }
 
-    private NavigationList<Feed> getFeed(OnAllDataLoaded onAllDataLoaded,
-                                         Predicate<Feed> addElementPredicate,
+    private NavigationList<Feed> getFeed(Predicate<Feed> addElementPredicate,
                                          Map<String, Object> args) {
         GetNavigationListParams<Feed> params = new GetNavigationListParams<Feed>();
         params.url = rootUrl + "//getNews";
@@ -160,12 +157,11 @@ public class RequestManager implements ImageUrlProvider {
         params.key = "feeds";
         params.aClass = Feed.class;
         params.params = args;
-        params.onAllDataLoaded = onAllDataLoaded;
         params.addElementPredicate = addElementPredicate;
         return httpClient.getNavigationList(params);
     }
 
-    public NavigationList<Feed> getUserActivity(OnAllDataLoaded onAllDataLoaded, long userId) {
+    public NavigationList<Feed> getUserActivity(long userId) {
         Long signedInUserId = signedInUser.getId();
         if(userId < 0){
             userId = signedInUserId;
@@ -183,17 +179,16 @@ public class RequestManager implements ImageUrlProvider {
             };
         }
 
-        return getFeed(onAllDataLoaded,
-                addElementPredicate,
+        return getFeed(addElementPredicate,
                 Collections.<String, Object>singletonMap("userId", userId));
     }
 
-    public NavigationList<Feed> getUserActivity(OnAllDataLoaded onAllDataLoaded) {
-        return getUserActivity(onAllDataLoaded, -1);
+    public NavigationList<Feed> getUserActivity() {
+        return getUserActivity(-1);
     }
 
-    public NavigationList<Feed> getNews(OnAllDataLoaded onAllDataLoaded) {
-        return getFeed(onAllDataLoaded, null, Collections.<String, Object>emptyMap());
+    public NavigationList<Feed> getNews() {
+        return getFeed(null, Collections.<String, Object>emptyMap());
     }
 
     public User getSignedInUser() {

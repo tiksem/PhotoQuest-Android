@@ -1,11 +1,7 @@
 package com.pq.fragments;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.os.Bundle;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
 import com.pq.R;
 import com.pq.adapters.FeedAdapter;
 import com.pq.data.Feed;
@@ -13,7 +9,7 @@ import com.pq.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
-import com.utilsframework.android.json.OnAllDataLoaded;
+import com.utils.framework.collections.OnAllDataLoaded;
 
 /**
  * Created by CM on 1/20/2015.
@@ -42,14 +38,8 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
     }
 
     @Override
-    protected NavigationList<Feed> getNavigationList(RequestManager requestManager,
-                                                     OnAllDataLoaded onAllDataLoaded) {
+    protected NavigationList<Feed> getNavigationList(RequestManager requestManager) {
         long userId = Fragments.getLong(this, USER_ID, -1);
-        return requestManager.getUserActivity(onAllDataLoaded, userId);
-    }
-
-    @Override
-    protected int getRootLayout() {
-        return R.layout.profile;
+        return requestManager.getUserActivity(userId);
     }
 }

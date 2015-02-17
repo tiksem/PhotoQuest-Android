@@ -6,6 +6,7 @@ import com.example.json.BuildConfig;
 import com.jsonutils.ExceptionInfo;
 import com.jsonutils.Json;
 import com.jsonutils.RequestException;
+import com.utils.framework.OnError;
 import com.utils.framework.collections.NavigationList;
 import com.utils.framework.collections.OnLoadingFinished;
 import com.utils.framework.collections.cache.LruCache;
@@ -230,7 +231,7 @@ public class JsonHttpClient {
         return new NavigationList<T>(500) {
             @Override
             public void getElementsOfPage(int pageNumber,
-                                             final OnLoadingFinished<T> onPageLoadingFinished) {
+                                             final OnLoadingFinished<T> onPageLoadingFinished, final OnError onError) {
                 long offset = params.offset + params.limit * pageNumber;
                 SortedMap<String, Object> urlParams = getLimitOffsetMap(offset, params.limit);
                 if(params.params != null){
@@ -244,7 +245,15 @@ public class JsonHttpClient {
                                 List<T> list = (List<T>) result;
                                 onPageLoadingFinished.onLoadingFinished(list, list.size() < params.limit);
                             }
-                        }, params.onError, true);
+                        }, new OnRequestError() {
+                            @Override
+                            public void onError(IOException e, ExceptionInfo info) {
+                                if(params.onError != null){
+                                    params.onError.onError(e, info);
+                                    onError.onError(e);
+                                }
+                            }
+                        }, true);
             }
 
             @Override

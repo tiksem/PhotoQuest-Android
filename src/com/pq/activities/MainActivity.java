@@ -63,6 +63,8 @@ public class MainActivity extends NavigationDrawerActivity {
             return ProfileFragment.create(-1);
         } else if(selectedItemId == R.id.friends) {
             return new FriendsFragment();
+        } else if(selectedItemId == R.id.news) {
+            return new NewsFragment();
         }
 
         return null;

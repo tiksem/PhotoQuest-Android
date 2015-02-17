@@ -12,6 +12,13 @@
               android:layout_width="match_parent"
               android:paddingLeft="10dp"
               android:layout_height="50dp"/>
+    <TextView android:id="@+id/news"
+              android:textColor="@color/white"
+              android:text="@string/news"
+              android:gravity="center_vertical"
+              android:layout_width="match_parent"
+              android:paddingLeft="10dp"
+              android:layout_height="50dp"/>
     <TextView android:id="@+id/people"
               android:textColor="@color/white"
               android:text="@string/people"

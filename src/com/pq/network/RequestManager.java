@@ -2,6 +2,7 @@ package com.pq.network;
 
 import com.jsonutils.ExceptionInfo;
 import com.pq.data.Feed;
+import com.pq.data.GalleryPhoto;
 import com.pq.data.Photoquest;
 import com.pq.data.User;
 import com.utils.framework.Predicate;
@@ -220,6 +221,17 @@ public class RequestManager implements ImageUrlProvider {
         params.params = new TreeMap<String, Object>();
         params.params.put("id", userId);
         httpClient.get(params);
+    }
+
+    public NavigationList<GalleryPhoto> getPhotosOfPhotoquest(long photoquestId) {
+        GetNavigationListParams<GalleryPhoto> params = new GetNavigationListParams<GalleryPhoto>();
+        params.url = rootUrl + "//getPhotosOfPhotoquest";
+        params.limit = 10;
+        params.key = "photos";
+        params.aClass = GalleryPhoto.class;
+        params.params = Collections.<String, Object>singletonMap("id", photoquestId);
+
+        return httpClient.getNavigationList(params);
     }
 
     public void removeIOErrorListener(IOErrorListener ioErrorListener) {

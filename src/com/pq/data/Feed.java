@@ -6,9 +6,9 @@ package com.pq.data;
 public class Feed {
     private Long photoId;
     private Long photoquestId;
-    private Long userId;
-    private Long addingDate;
-    private Long likesCount;
+    private long userId;
+    private long addingDate;
+    private long likesCount;
     private Long avatarId;
     private String photoquestName;
     private String userName;

@@ -4,10 +4,11 @@ package com.pq.data;
  * Created by CM on 12/26/2014.
  */
 public class Photoquest implements WithAvatar {
+    private long id;
     private String name;
     private Long avatarId;
     private String createdBy;
-    private Long viewsCount;
+    private long viewsCount;
 
     public String getName() {
         return name;
@@ -34,15 +35,19 @@ public class Photoquest implements WithAvatar {
         this.createdBy = createdBy;
     }
 
-    public Long getViewsCount() {
+    public long getViewsCount() {
         return viewsCount;
     }
 
-    public void setViewsCount(Long viewsCount) {
-        if (viewsCount != null) {
-            this.viewsCount = viewsCount;
-        } else {
-            this.viewsCount = 0l;
-        }
+    public void setViewsCount(long viewsCount) {
+        this.viewsCount = viewsCount;
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 }

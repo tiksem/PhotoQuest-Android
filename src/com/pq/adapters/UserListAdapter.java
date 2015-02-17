@@ -14,9 +14,7 @@ import com.utilsframework.android.adapters.ViewArrayAdapter;
 /**
  * Created by CM on 12/20/2014.
  */
-public class UserListAdapter extends ViewArrayAdapter<User, UserHolder> {
-    private static final int AVATAR_SIZE = 100;
-
+public class UserListAdapter extends NavigationListAdapter<User, UserHolder> {
     private ImageUrlProvider imageUrlProvider;
 
     public UserListAdapter(Context context, ImageUrlProvider imageUrlProvider) {
@@ -44,10 +42,5 @@ public class UserListAdapter extends ViewArrayAdapter<User, UserHolder> {
         userHolder.location.setText(user.getCity() + ", " + user.getCountry());
         Images.displayAvatar(imageUrlProvider, userHolder.avatar, user.getAvatarId()
         );
-    }
-
-    @Override
-    protected int getNullLayoutId() {
-        return R.layout.person_list_null_item;
     }
 }

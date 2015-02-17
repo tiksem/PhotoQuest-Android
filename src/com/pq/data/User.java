@@ -9,7 +9,7 @@ import com.utils.framework.collections.cache.GlobalStringCache;
 public class User implements WithAvatar {
     private static final GlobalStringCache STRING_CACHE = GlobalStringCache.getInstance();
 
-    private Long id;
+    private long id;
     private Long avatarId;
     private String name;
     private String lastName;

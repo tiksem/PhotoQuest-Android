@@ -16,10 +16,7 @@ import com.utilsframework.android.resources.StringUtilities;
 /**
  * Created by CM on 1/20/2015.
  */
-public class FeedAdapter extends ViewArrayAdapter<Feed, FeedHolder> {
-    private static final int AVATAR_SIZE = 50;
-    private static final int IMAGE_SIZE = 300;
-
+public class FeedAdapter extends NavigationListAdapter<Feed, FeedHolder> {
     private ImageUrlProvider imageUrlProvider;
 
     public FeedAdapter(Context context, ImageUrlProvider imageUrlProvider) {
@@ -79,10 +76,5 @@ public class FeedAdapter extends ViewArrayAdapter<Feed, FeedHolder> {
         holder.description.setText(description);
 
         holder.name.setText(feed.getUserName());
-    }
-
-    @Override
-    protected int getNullLayoutId() {
-        return R.layout.person_list_null_item;
     }
 }

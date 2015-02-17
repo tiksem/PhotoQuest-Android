@@ -14,7 +14,7 @@ import com.utilsframework.android.adapters.ViewArrayAdapter;
 /**
  * Created by CM on 12/26/2014.
  */
-public class PhotoquestsAdapter extends ViewArrayAdapter<Photoquest, PhotoquestHolder> {
+public class PhotoquestsAdapter extends NavigationListAdapter<Photoquest, PhotoquestHolder> {
     private static final int AVATAR_SIZE = 100;
     private ImageUrlProvider imageUrlProvider;
 
@@ -26,11 +26,6 @@ public class PhotoquestsAdapter extends ViewArrayAdapter<Photoquest, PhotoquestH
     @Override
     protected int getRootLayoutId() {
         return R.layout.photoquest_list_item;
-    }
-
-    @Override
-    protected int getNullLayoutId() {
-        return R.layout.person_list_null_item;
     }
 
     @Override

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pq.R;
 import com.pq.adapters.holders.PhotoquestHolder;
 import com.pq.data.Photoquest;
@@ -49,7 +48,7 @@ public class PhotoquestsAdapter extends ViewArrayAdapter<Photoquest, PhotoquestH
         holder.name.setText(photoquest.getName());
         holder.userName.setText(photoquest.getCreatedBy());
         holder.viewsCount.setText(String.valueOf(photoquest.getViewsCount()));
-        Images.displayAvatar(imageUrlProvider, holder.avatar, photoquest.getAvatarId(),
-                AVATAR_SIZE);
+        Images.displayAvatar(imageUrlProvider, holder.avatar, photoquest.getAvatarId()
+        );
     }
 }

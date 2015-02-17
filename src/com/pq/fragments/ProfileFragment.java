@@ -14,7 +14,6 @@ import com.pq.utils.Images;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
-import com.utils.framework.collections.OnAllDataLoaded;
 
 /**
  * Created by CM on 1/20/2015.
@@ -43,7 +42,7 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
         View header = View.inflate(activity, R.layout.profile_header, null);
         ImageView avatar = (ImageView) header.findViewById(R.id.avatar);
         User signedInUser = requestManager.getSignedInUser();
-        Images.displayAvatar(requestManager, avatar, signedInUser.getAvatarId(), 100);
+        Images.displayAvatar(requestManager, avatar, signedInUser.getAvatarId());
         TextView userName = (TextView) header.findViewById(R.id.name);
         userName.setText(signedInUser.getName() + " " + signedInUser.getLastName());
 

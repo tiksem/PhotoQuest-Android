@@ -4,7 +4,6 @@ import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
-import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pq.R;
 import com.pq.adapters.holders.UserHolder;
 import com.pq.data.User;
@@ -43,8 +42,8 @@ public class UserListAdapter extends ViewArrayAdapter<User, UserHolder> {
     protected void reuseView(User user, UserHolder userHolder, int position, View view) {
         userHolder.name.setText(user.getName() + " " + user.getLastName());
         userHolder.location.setText(user.getCity() + ", " + user.getCountry());
-        Images.displayAvatar(imageUrlProvider, userHolder.avatar, user.getAvatarId(),
-                AVATAR_SIZE);
+        Images.displayAvatar(imageUrlProvider, userHolder.avatar, user.getAvatarId()
+        );
     }
 
     @Override

@@ -10,7 +10,6 @@ import com.pq.app.UiUtilities;
 import com.pq.data.Feed;
 import com.pq.network.ImageUrlProvider;
 import com.pq.utils.Images;
-import com.utils.framework.strings.Strings;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.resources.StringUtilities;
 
@@ -63,15 +62,15 @@ public class FeedAdapter extends ViewArrayAdapter<Feed, FeedHolder> {
     protected void reuseView(Feed feed, FeedHolder holder, int position, View view) {
         Long photoId = feed.getPhotoId();
         if (photoId != null) {
-            Images.displayAvatar(imageUrlProvider, holder.image, photoId,
-                    IMAGE_SIZE);
+            Images.displayAvatar(imageUrlProvider, holder.image, photoId
+            );
             StringUtilities.setFormatText(holder.likesCount, R.string.like_it, feed.getLikesCount());
         } else {
             holder.image.setVisibility(View.GONE);
             holder.likesCount.setVisibility(View.GONE);
         }
-        Images.displayAvatar(imageUrlProvider, holder.avatar, feed.getAvatarId(),
-                AVATAR_SIZE);
+        Images.displayAvatar(imageUrlProvider, holder.avatar, feed.getAvatarId()
+        );
 
         String date = UiUtilities.getDisplayDate(feed.getAddingDate());
         holder.date.setText(date);

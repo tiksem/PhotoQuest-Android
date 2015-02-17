@@ -8,7 +8,8 @@ import com.utils.framework.Predicate;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.json.*;
-import com.utilsframework.android.threading.OnFinish;
+import com.utilsframework.android.json.OnSuccess;
+import com.utilsframework.android.threading.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -209,8 +210,16 @@ public class RequestManager implements ImageUrlProvider {
         return _signedInUser;
     }
 
-    public void getUserById(long userId, OnFinish<User> onFinish) {
+    public void getUserById(long userId, OnSuccess<User> onSuccess) {
+        final GetParams<User> params = new GetParams<User>();
+        params.aClass = User.class;
+        params.cachingTime = 0;
+        params.url = rootUrl + "//getUserById";
+        params.onSuccess = onSuccess;
 
+        params.params = new TreeMap<String, Object>();
+        params.params.put("id", userId);
+        httpClient.get(params);
     }
 
     public void removeIOErrorListener(IOErrorListener ioErrorListener) {

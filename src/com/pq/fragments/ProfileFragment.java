@@ -15,6 +15,7 @@ import com.pq.utils.Images;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
+import com.utilsframework.android.json.OnSuccess;
 import com.utilsframework.android.threading.Threading;
 
 /**
@@ -56,16 +57,22 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
     }
 
     @Override
-    protected ViewArrayAdapter<Feed, ?> createAdapter(RequestManager requestManager) {
+    protected ViewArrayAdapter<Feed, ?> createAdapter(final RequestManager requestManager) {
         Activity activity = getActivity();
-        FeedAdapter feedAdapter = new FeedAdapter(activity, null, requestManager);
+        final FeedAdapter feedAdapter = new FeedAdapter(activity, null, requestManager);
 
-        User signedInUser = requestManager.getSignedInUser();
-        if (signedInUser.getId().equals(userId)) {
+        final User signedInUser = requestManager.getSignedInUser();
+        if (signedInUser.getId().equals(userId) || userId < 0) {
             View header = createHeader(requestManager, signedInUser);
             feedAdapter.setHeader(header);
         } else {
-
+            requestManager.getUserById(userId, new OnSuccess<User>() {
+                @Override
+                public void onSuccess(User user) {
+                    View header = createHeader(requestManager, user);
+                    feedAdapter.setHeader(header);
+                }
+            });
         }
 
         return feedAdapter;

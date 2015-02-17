@@ -2,10 +2,15 @@ package com.pq.fragments;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 import com.pq.R;
 import com.pq.adapters.FeedAdapter;
 import com.pq.data.Feed;
+import com.pq.data.User;
 import com.pq.network.RequestManager;
+import com.pq.utils.Images;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
@@ -16,6 +21,7 @@ import com.utils.framework.collections.OnAllDataLoaded;
  */
 public class ProfileFragment extends NavigationListFragment<Feed> {
     private static final String USER_ID = "userId";
+    private static final int AVATAR_SIZE = 100;
 
     public ProfileFragment() {
     }
@@ -33,8 +39,17 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
     @Override
     protected ViewArrayAdapter<Feed, ?> createAdapter(RequestManager requestManager) {
         Activity activity = getActivity();
-        //View header = View.inflate(activity, R.layout.profile_header, null);
-        return new FeedAdapter(activity, null, requestManager);
+
+        View header = View.inflate(activity, R.layout.profile_header, null);
+        ImageView avatar = (ImageView) header.findViewById(R.id.avatar);
+        User signedInUser = requestManager.getSignedInUser();
+        Images.displayAvatar(requestManager, avatar, signedInUser.getAvatarId(), 100);
+        TextView userName = (TextView) header.findViewById(R.id.name);
+        userName.setText(signedInUser.getName() + " " + signedInUser.getLastName());
+
+        FeedAdapter feedAdapter = new FeedAdapter(activity, null, requestManager);
+        feedAdapter.setHeader(header);
+        return feedAdapter;
     }
 
     @Override

@@ -5,6 +5,7 @@ import com.pq.adapters.UserListAdapter;
 import com.pq.data.User;
 import com.pq.network.RequestManager;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
+import com.utilsframework.android.fragments.Fragments;
 
 /**
  * Created by CM on 1/20/2015.
@@ -18,5 +19,11 @@ public abstract class UsersFragment extends NavigationListFragment<User> {
     @Override
     protected int getRootLayout() {
         return R.layout.navigation_list;
+    }
+
+    @Override
+    protected void onListItemClicked(User user) {
+        ProfileFragment profileFragment = ProfileFragment.create(user.getId());
+        Fragments.replaceFragmentAndAddToBackStack(getActivity(), R.id.content, profileFragment);
     }
 }

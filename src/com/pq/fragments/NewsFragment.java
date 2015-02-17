@@ -19,4 +19,9 @@ public class NewsFragment extends NavigationListFragment<Feed> {
     protected NavigationList<Feed> getNavigationList(RequestManager requestManager) {
         return requestManager.getNews();
     }
+
+    @Override
+    protected void onListItemClicked(Feed item) {
+
+    }
 }

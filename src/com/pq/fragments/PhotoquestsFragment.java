@@ -14,4 +14,9 @@ public abstract class PhotoquestsFragment extends NavigationListFragment<Photoqu
     protected ViewArrayAdapter<Photoquest, ?> createAdapter(RequestManager requestManager) {
         return new PhotoquestsAdapter(getActivity(), requestManager);
     }
+
+    @Override
+    protected void onListItemClicked(Photoquest photoquest) {
+
+    }
 }

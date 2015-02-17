@@ -6,13 +6,12 @@ import com.pq.data.Photoquest;
 import com.pq.data.User;
 import com.utils.framework.Predicate;
 import com.utils.framework.collections.NavigationList;
-import com.utils.framework.collections.OnAllDataLoaded;
+import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.json.*;
+import com.utilsframework.android.threading.OnFinish;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.Map;
-import java.util.TreeMap;
+import java.util.*;
 
 /**
  * Created by CM on 12/21/2014.
@@ -20,11 +19,21 @@ import java.util.TreeMap;
 public class RequestManager implements ImageUrlProvider {
     private String rootUrl;
     private JsonHttpClient httpClient = new JsonHttpClient();
-    private User signedInUser;
+    //do not use directly, use getSignedInUser()
+    private User _signedInUser;
+    private Set<IOErrorListener> ioErrorListeners = new HashSet<IOErrorListener>();
 
     public RequestManager(String rootUrl) {
         this.rootUrl = rootUrl;
         httpClient.setDefaultCachingTime(5 * 60 * 1000);
+        httpClient.setIoErrorListener(new IOErrorListener() {
+            @Override
+            public void onIOError(IOException error) {
+                for(IOErrorListener ioErrorListener : ioErrorListeners){
+                    ioErrorListener.onIOError(error);
+                }
+            }
+        });
     }
 
     @Override
@@ -70,7 +79,7 @@ public class RequestManager implements ImageUrlProvider {
         params.aClass = Photoquest.class;
 
         params.params = new TreeMap<String, Object>();
-        params.params.put("userId", signedInUser.getId());
+        params.params.put("userId", getSignedInUser().getId());
 
         return params;
     }
@@ -131,7 +140,7 @@ public class RequestManager implements ImageUrlProvider {
         params.onSuccess = new OnSuccess<User>() {
             @Override
             public void onSuccess(User result) {
-                signedInUser = result;
+                _signedInUser = result;
                 loginListener.onLoginSuccess(result, login, password);
             }
         };
@@ -162,6 +171,7 @@ public class RequestManager implements ImageUrlProvider {
     }
 
     public NavigationList<Feed> getUserActivity(long userId) {
+        final User signedInUser = getSignedInUser();
         Long signedInUserId = signedInUser.getId();
         if(userId < 0){
             userId = signedInUserId;
@@ -192,6 +202,22 @@ public class RequestManager implements ImageUrlProvider {
     }
 
     public User getSignedInUser() {
-        return signedInUser;
+        if(_signedInUser == null){
+            httpClient.getIoErrorListener().onIOError(new IOException("User is not signed in"));
+        }
+
+        return _signedInUser;
+    }
+
+    public void getUserById(long userId, OnFinish<User> onFinish) {
+
+    }
+
+    public void removeIOErrorListener(IOErrorListener ioErrorListener) {
+        ioErrorListeners.remove(ioErrorListener);
+    }
+
+    public void addIOErrorListener(IOErrorListener ioErrorListener) {
+        ioErrorListeners.add(ioErrorListener);
     }
 }

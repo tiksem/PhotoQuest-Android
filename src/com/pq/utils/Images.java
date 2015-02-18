@@ -1,5 +1,6 @@
 package com.pq.utils;
 
+import android.util.Log;
 import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pq.R;
@@ -15,7 +16,8 @@ public class Images {
 
     public static void displayAvatar(final ImageUrlProvider imageUrlProvider,
                                      final ImageView imageView, final Long imageId) {
-        GuiUtilities.executeWhenViewMeasured(imageView, new Runnable() {
+        Log.i("Images", "Displaying image " + imageId + "requested");
+        GuiUtilities.executeWhenViewMeasuredUsingLoop(imageView, new Runnable() {
             @Override
             public void run() {
                 int size = (int) MeasureUtils.convertPixelsToDp(imageView.getMeasuredWidth(), imageView.getContext());
@@ -26,6 +28,8 @@ public class Images {
                 } else {
                     imageView.setImageResource(R.drawable.empty_avatar);
                 }
+
+                Log.i("Images", "Displaying image " + imageId + "finished");
             }
         });
     }

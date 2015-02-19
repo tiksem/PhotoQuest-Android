@@ -2,10 +2,12 @@
 
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
+              android:clickable="true"
               android:background="@color/black"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
     <TextView android:id="@+id/profile"
+              android:background="@drawable/navigation_item"
               android:textColor="@color/white"
               android:text="@string/profile"
               android:gravity="center_vertical"
@@ -13,6 +15,7 @@
               android:paddingLeft="10dp"
               android:layout_height="50dp"/>
     <TextView android:id="@+id/news"
+              android:background="@drawable/navigation_item"
               android:textColor="@color/white"
               android:text="@string/news"
               android:gravity="center_vertical"
@@ -20,6 +23,7 @@
               android:paddingLeft="10dp"
               android:layout_height="50dp"/>
     <TextView android:id="@+id/people"
+              android:background="@drawable/navigation_item"
               android:textColor="@color/white"
               android:text="@string/people"
               android:gravity="center_vertical"
@@ -27,6 +31,7 @@
               android:paddingLeft="10dp"
               android:layout_height="50dp"/>
     <TextView android:id="@+id/photoquests"
+              android:background="@drawable/navigation_item"
               android:text="@string/photoquests"
               android:textColor="@color/white"
               android:gravity="center_vertical"
@@ -34,6 +39,7 @@
               android:paddingLeft="10dp"
               android:layout_height="50dp"/>
     <TextView android:id="@+id/friends"
+              android:background="@drawable/navigation_item"
               android:text="@string/friends"
               android:textColor="@color/white"
               android:gravity="center_vertical"
@@ -41,6 +47,7 @@
               android:paddingLeft="10dp"
               android:layout_height="50dp"/>
     <TextView android:id="@+id/requests"
+              android:background="@drawable/navigation_item"
               android:text="@string/friend_requests"
               android:textColor="@color/white"
               android:gravity="center_vertical"
@@ -48,6 +55,7 @@
               android:paddingLeft="10dp"
               android:layout_height="50dp"/>
     <TextView android:id="@+id/log_out"
+              android:background="@drawable/navigation_item"
               android:text="@string/log_out"
               android:textColor="@color/white"
               android:gravity="center_vertical"

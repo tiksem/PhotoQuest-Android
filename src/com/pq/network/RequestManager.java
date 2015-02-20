@@ -8,7 +8,6 @@ import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.json.*;
 import com.utilsframework.android.json.OnSuccess;
-import com.utilsframework.android.threading.*;
 
 import java.io.IOException;
 import java.util.*;
@@ -261,6 +260,33 @@ public class RequestManager implements ImageUrlProvider {
 
         httpClient.get(params);
     }
+
+    public List<Suggestion> getCountrySuggestions(String query) throws IOException {
+        String url = rootUrl + "//getCountrySuggestions";
+        Map<String, Object> params = Collections.<String, Object>singletonMap("query", query);
+        return httpClient.getListSync(url, params, "suggestions", Suggestion.class);
+    }
+
+    public void getCountrySuggestions(String query, OnSuccess<List<Suggestion>> onSuccess) {
+        final GetListParams<Suggestion> params = GetListParams.create(Suggestion.class);
+        params.cachingTime = 0;
+        params.url = rootUrl + "//getCountrySuggestions";
+        params.onSuccess = onSuccess;
+        params.params = new TreeMap<String, Object>();
+        params.params.put("query", query);
+        params.key = "suggestions";
+
+        httpClient.getList(params);
+    }
+
+    public List<Suggestion> getCitySuggestions(String query, int countryId) throws IOException {
+        String url = rootUrl + "//getCitySuggestions";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("query", query);
+        params.put("countryId", countryId);
+        return httpClient.getListSync(url, params, "suggestions", Suggestion.class);
+    }
+
 
     public void removeIOErrorListener(IOErrorListener ioErrorListener) {
         ioErrorListeners.remove(ioErrorListener);

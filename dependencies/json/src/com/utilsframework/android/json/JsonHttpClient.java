@@ -108,6 +108,12 @@ public class JsonHttpClient {
                 params.cachingTime, params.onFinish, params.onSuccess, params.onError, false);
     }
 
+    public <T> List<T> getListSync(String url, Map<String, Object> params, String key,
+                                   Class<T> aClass) throws IOException {
+        String json = Network.executeGetRequest(httpClient, url, params);
+        return Json.readList(json, key, aClass);
+    }
+
     private void get(String url,
                             SortedMap<String, Object> params,
                             final Class aClass,

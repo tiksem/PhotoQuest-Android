@@ -12,13 +12,19 @@ import android.widget.TextView;
 import com.pq.PhotoquestUtilities;
 import com.pq.R;
 import com.pq.app.PhotoQuestApp;
+import com.pq.data.User;
 import com.pq.data.UserRegistration;
 import com.pq.network.CaptchaUrlProvider;
 import com.pq.network.RequestManager;
 import com.pq.utils.Images;
+import com.pq.view.CountryCityInput;
+import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.json.OnSuccess;
 import com.utilsframework.android.threading.OnComplete;
 import com.utilsframework.android.view.Alerts;
+import com.utilsframework.android.view.EditTextWithSuggestions;
+
+import java.io.IOException;
 
 /**
  * Created by CM on 2/20/2015.
@@ -32,11 +38,13 @@ public class RegisterActivity extends Activity {
     private Spinner gender;
     private ImageView captcha;
     private TextView captchaCode;
-    private TextView city;
-    private TextView country;
+    private EditTextWithSuggestions city;
+    private EditTextWithSuggestions country;
     private long captchaId;
     private int cityId;
     private ProgressDialog progressDialog;
+    private IOErrorListener ioErrorListener;
+    private CountryCityInput countryCityInput;
 
     public static void start(Context context) {
         Intent intent = new Intent(context, RegisterActivity.class);
@@ -53,11 +61,18 @@ public class RegisterActivity extends Activity {
         user.captcha = captchaId;
         user.cityId = cityId;
         user.gender = gender.getSelectedItemPosition() == 0;
+        user.cityId = countryCityInput.getCityId();
         return user;
     }
 
     private void register() {
-
+        UserRegistration user = getUserRegistration();
+        requestManager.register(user, new OnSuccess<User>() {
+            @Override
+            public void onSuccess(User result) {
+                FirstPhotoquestActivity.start(RegisterActivity.this);
+            }
+        });
     }
 
     private void initViews() {
@@ -77,8 +92,10 @@ public class RegisterActivity extends Activity {
         lastName = (TextView) findViewById(R.id.lastName);
         captcha = (ImageView) findViewById(R.id.captcha);
         captchaCode = (TextView) findViewById(R.id.captchaCode);
-        city = (TextView) findViewById(R.id.city);
-        country = (TextView) findViewById(R.id.country);
+        city = (EditTextWithSuggestions) findViewById(R.id.city);
+        country = (EditTextWithSuggestions) findViewById(R.id.country);
+
+        countryCityInput = new CountryCityInput(requestManager, country, city);
 
         updateCaptchaImage();
     }
@@ -90,6 +107,14 @@ public class RegisterActivity extends Activity {
                 progressDialog.dismiss();
             }
         });
+    }
+
+    private void onIOError(IOException e) {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+
+        Alerts.showOkButtonAlert(this, e.getMessage());
     }
 
     @Override
@@ -106,6 +131,20 @@ public class RegisterActivity extends Activity {
                 initViews();
             }
         });
+
+        ioErrorListener = new IOErrorListener() {
+            @Override
+            public void onIOError(IOException error) {
+                RegisterActivity.this.onIOError(error);
+            }
+        };
+        requestManager.addIOErrorListener(ioErrorListener);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        requestManager.removeIOErrorListener(ioErrorListener);
     }
 
     private ProgressDialog showProgress() {

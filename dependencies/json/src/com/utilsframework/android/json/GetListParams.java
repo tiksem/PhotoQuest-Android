@@ -15,4 +15,10 @@ public class GetListParams<T> {
     public OnFinished onFinish;
     public OnRequestError onError;
     public OnSuccess<List<T>> onSuccess;
+
+    public static <T> GetListParams<T> create(Class<T> tClass) {
+        GetListParams<T> result = new GetListParams<T>();
+        result.aClass = tClass;
+        return result;
+    }
 }

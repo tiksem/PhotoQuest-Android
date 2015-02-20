@@ -30,20 +30,20 @@ public class CountryCityInput {
                 new PhotoquestSuggestionsAdapter(country.getContext(), countrySuggestionsProvider);
         country.setAdapter(countryAdapter);
 
-        country.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        country.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Suggestion suggestion = countryAdapter.getLastSuggestedItems().get(position);
                 countryId = suggestion.id;
                 city.setVisibility(View.VISIBLE);
             }
+        });
 
+        country.setOnDefaultValueSet(new EditTextWithSuggestions.OnDefaultValueSet() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onDefaultValueSet() {
                 countryId = -1;
                 cityId = -1;
-                city.setText("");
-                country.setText("");
                 city.setVisibility(View.GONE);
             }
         });
@@ -64,17 +64,18 @@ public class CountryCityInput {
                 new PhotoquestSuggestionsAdapter(city.getContext(), citySuggestionsProvider);
         city.setAdapter(countryAdapter);
 
-        city.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        city.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Suggestion suggestion = countryAdapter.getLastSuggestedItems().get(position);
                 cityId = suggestion.id;
             }
+        });
 
+        city.setOnDefaultValueSet(new EditTextWithSuggestions.OnDefaultValueSet() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onDefaultValueSet() {
                 cityId = -1;
-                city.setText("");
             }
         });
 
@@ -94,6 +95,8 @@ public class CountryCityInput {
                 Alerts.showOkButtonAlert(country.getContext(), error.getMessage());
             }
         };
+
+        city.setVisibility(View.GONE);
 
         initCountry();
         initCity();

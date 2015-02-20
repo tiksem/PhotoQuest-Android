@@ -21,7 +21,7 @@ import java.io.IOException;
 /**
  * Created by CM on 12/26/2014.
  */
-public abstract class NavigationListFragment<T> extends Fragment {
+public abstract class NavigationListFragment<T> extends NavigationDrawerFragment {
     private IOErrorListener ioErrorListener;
     private RequestManager requestManager;
 

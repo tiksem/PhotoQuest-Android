@@ -38,7 +38,7 @@ public class MainActivity extends NavigationDrawerActivity {
     }
 
     @Override
-    public Fragment createFragmentBySelectedItem(int selectedItemId, int tabIndex) {
+    public Fragment createFragmentBySelectedItem(int selectedItemId, int tabIndex, int navigationLevel) {
         if(selectedItemId == R.id.people){
             return new PeopleFragment();
         } else if(selectedItemId == R.id.photoquests) {
@@ -71,7 +71,7 @@ public class MainActivity extends NavigationDrawerActivity {
     }
 
     @Override
-    public void initTab(int currentSelectedItem, int tabIndex, ActionBar.Tab tab) {
+    public void initTab(int currentSelectedItem, int tabIndex, int navigationLevel, ActionBar.Tab tab) {
         if(currentSelectedItem == R.id.photoquests){
             if(tabIndex == ALL_PHOTOQUESTS_TAB){
                 tab.setText(R.string.all);
@@ -92,11 +92,17 @@ public class MainActivity extends NavigationDrawerActivity {
     }
 
     @Override
-    public int getTabsCount(int selectedItemId) {
-        if(selectedItemId == R.id.photoquests){
-            return PHOTOQUEST_TABS_COUNT;
-        } else if(selectedItemId == R.id.requests) {
-            return REQUESTS_TABS_COUNT;
+    public int getTabsCount(int selectedItemId, int navigationLevel) {
+        if (navigationLevel == 0) {
+            if(selectedItemId == R.id.photoquests){
+                return PHOTOQUEST_TABS_COUNT;
+            } else if(selectedItemId == R.id.requests) {
+                return REQUESTS_TABS_COUNT;
+            }
+        } else if(navigationLevel == Level.PHOTOS_NAVIGATION) {
+            return 1;
+        } else if(navigationLevel == Level.USER_NAVIGATION) {
+            return 1;
         }
 
         return 1;

@@ -1,11 +1,9 @@
 package com.pq.network;
 
 import com.jsonutils.ExceptionInfo;
-import com.pq.data.Feed;
-import com.pq.data.GalleryPhoto;
-import com.pq.data.Photoquest;
-import com.pq.data.User;
+import com.pq.data.*;
 import com.utils.framework.Predicate;
+import com.utils.framework.Reflection;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.json.*;
@@ -46,6 +44,10 @@ public class RequestManager implements ImageUrlProvider {
     @Override
     public String getThumbnailUrl(long imageId, int size) {
         return getImageUrl(imageId) + "?size=" + size;
+    }
+
+    public String getCaptchaUrl(long captchaId) {
+        return rootUrl + "/captcha/" + captchaId;
     }
 
     private NavigationList<User> getUsers(String url) {
@@ -232,6 +234,32 @@ public class RequestManager implements ImageUrlProvider {
         params.params = Collections.<String, Object>singletonMap("id", photoquestId);
 
         return httpClient.getNavigationList(params);
+    }
+
+    public static class Captcha {
+        public long id;
+    }
+
+    public void getCaptcha(OnSuccess<Captcha> onSuccess) {
+        final GetParams<Captcha> params = new GetParams<Captcha>();
+        params.aClass = Captcha.class;
+        params.cachingTime = 0;
+        params.url = rootUrl + "//getCaptcha";
+        params.onSuccess = onSuccess;
+
+        httpClient.get(params);
+    }
+
+    public void register(UserRegistration user, OnSuccess<User> onSuccess) {
+        final GetParams<User> params = new GetParams<User>();
+        params.aClass = User.class;
+        params.cachingTime = 0;
+        params.url = rootUrl + "//register";
+        params.onSuccess = onSuccess;
+        params.params = new TreeMap<String, Object>();
+        Reflection.objectToPropertyMap(params.params, user);
+
+        httpClient.get(params);
     }
 
     public void removeIOErrorListener(IOErrorListener ioErrorListener) {

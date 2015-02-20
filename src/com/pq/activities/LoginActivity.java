@@ -62,6 +62,13 @@ public class LoginActivity extends Activity implements RequestManager.LoginListe
                 login(login.getText().toString(), password.getText().toString());
             }
         });
+
+        findViewById(R.id.sign_up).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RegisterActivity.start(LoginActivity.this);
+            }
+        });
     }
 
     @Override

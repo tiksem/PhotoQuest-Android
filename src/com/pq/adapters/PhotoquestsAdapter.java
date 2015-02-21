@@ -9,7 +9,6 @@ import com.pq.adapters.holders.PhotoquestHolder;
 import com.pq.data.Photoquest;
 import com.pq.network.ImageUrlProvider;
 import com.pq.utils.Images;
-import com.utilsframework.android.adapters.ViewArrayAdapter;
 
 /**
  * Created by CM on 12/26/2014.
@@ -24,7 +23,7 @@ public class PhotoquestsAdapter extends NavigationListAdapter<Photoquest, Photoq
     }
 
     @Override
-    protected int getRootLayoutId() {
+    protected int getRootLayoutId(int viewType) {
         return R.layout.photoquest_list_item;
     }
 

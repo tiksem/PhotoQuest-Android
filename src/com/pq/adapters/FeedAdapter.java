@@ -10,7 +10,6 @@ import com.pq.app.UiUtilities;
 import com.pq.data.Feed;
 import com.pq.network.ImageUrlProvider;
 import com.pq.utils.Images;
-import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.resources.StringUtilities;
 
 /**
@@ -30,7 +29,7 @@ public class FeedAdapter extends NavigationListAdapter<Feed, FeedHolder> {
     }
 
     @Override
-    protected int getRootLayoutId() {
+    protected int getRootLayoutId(int viewType) {
         return R.layout.feed_item;
     }
 

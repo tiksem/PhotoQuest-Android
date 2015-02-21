@@ -8,7 +8,6 @@ import com.pq.adapters.holders.GalleryPhotoHolder;
 import com.pq.data.GalleryPhoto;
 import com.pq.network.ImageUrlProvider;
 import com.pq.utils.Images;
-import com.utilsframework.android.adapters.ViewArrayAdapter;
 
 /**
  * Created by CM on 2/18/2015.
@@ -22,7 +21,7 @@ public class PhotoGalleryAdapter extends NavigationListAdapter<GalleryPhoto, Gal
     }
 
     @Override
-    protected int getRootLayoutId() {
+    protected int getRootLayoutId(int viewType) {
         return R.layout.photo_gallery_item;
     }
 

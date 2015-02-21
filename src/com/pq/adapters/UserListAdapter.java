@@ -9,7 +9,6 @@ import com.pq.adapters.holders.UserHolder;
 import com.pq.data.User;
 import com.pq.network.ImageUrlProvider;
 import com.pq.utils.Images;
-import com.utilsframework.android.adapters.ViewArrayAdapter;
 
 /**
  * Created by CM on 12/20/2014.
@@ -23,7 +22,7 @@ public class UserListAdapter extends NavigationListAdapter<User, UserHolder> {
     }
 
     @Override
-    protected int getRootLayoutId() {
+    protected int getRootLayoutId(int viewType) {
         return R.layout.person_list_item;
     }
 

@@ -296,6 +296,16 @@ public class RequestManager implements ImageUrlProvider {
         return httpClient.getNavigationList(params);
     }
 
+    public NavigationList<Message> getMessages(long userId) {
+        GetNavigationListParams<Message> params = GetNavigationListParams.create(Message.class);
+        params.url = rootUrl + "//messages";
+        params.limit = 10;
+        params.key = "messages";
+        params.params = Collections.<String, Object>singletonMap("userId", userId);
+
+        return httpClient.getNavigationList(params);
+    }
+
     public void removeIOErrorListener(IOErrorListener ioErrorListener) {
         ioErrorListeners.remove(ioErrorListener);
     }

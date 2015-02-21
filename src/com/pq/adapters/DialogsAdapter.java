@@ -1,7 +1,6 @@
 package com.pq.adapters;
 
 import android.content.Context;
-import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,7 +23,7 @@ public class DialogsAdapter extends NavigationListAdapter<DialogInfo, DialogHold
     }
 
     @Override
-    protected int getRootLayoutId() {
+    protected int getRootLayoutId(int viewType) {
         return R.layout.dialog_item;
     }
 

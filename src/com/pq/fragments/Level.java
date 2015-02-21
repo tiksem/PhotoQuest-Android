@@ -6,4 +6,5 @@ package com.pq.fragments;
 public class Level {
     public static int USER_NAVIGATION = 1;
     public static int PHOTOS_NAVIGATION = 2;
+    public static int MESSAGES_NAVIGATION = 3;
 }

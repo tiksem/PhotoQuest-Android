@@ -8,7 +8,6 @@ import com.pq.data.Suggestion;
 import com.utils.framework.suggestions.SuggestionsProvider;
 import com.utilsframework.android.adapters.SingleViewArrayAdapter;
 import com.utilsframework.android.adapters.SuggestionsAdapter;
-import com.utilsframework.android.adapters.ViewArrayAdapter;
 
 /**
  * Created by CM on 2/20/2015.
@@ -17,7 +16,7 @@ public class PhotoquestSuggestionsAdapter extends SuggestionsAdapter<Suggestion,
     public PhotoquestSuggestionsAdapter(Context context, SuggestionsProvider<Suggestion> suggestionsProvider) {
         setViewArrayAdapter(new SingleViewArrayAdapter<Suggestion>(context) {
             @Override
-            protected int getRootLayoutId() {
+            protected int getRootLayoutId(int viewType) {
                 return R.layout.suggestion_item;
             }
 

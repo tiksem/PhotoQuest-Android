@@ -23,7 +23,6 @@ import com.utilsframework.android.threading.Threading;
  */
 public class ProfileFragment extends NavigationListFragment<Feed> {
     private static final String USER_ID = "userId";
-    private static final int AVATAR_SIZE = 100;
     private long userId;
 
     public ProfileFragment() {

@@ -18,4 +18,10 @@ public class GetNavigationListParams<T> {
     public long limit = 10;
     public OnRequestError onError;
     public Predicate<T> addElementPredicate;
+
+    public static <T> GetNavigationListParams<T> create(Class<T> tClass) {
+        GetNavigationListParams<T> params = new GetNavigationListParams<T>();
+        params.aClass = tClass;
+        return params;
+    }
 }

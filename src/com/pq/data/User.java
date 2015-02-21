@@ -64,4 +64,8 @@ public class User implements WithAvatar {
     public void setId(Long id) {
         this.id = id;
     }
+
+    public String getNameData() {
+        return name + " " + lastName;
+    }
 }

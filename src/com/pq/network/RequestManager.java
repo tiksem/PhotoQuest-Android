@@ -287,6 +287,14 @@ public class RequestManager implements ImageUrlProvider {
         return httpClient.getListSync(url, params, "suggestions", Suggestion.class);
     }
 
+    public NavigationList<DialogInfo> getDialogs() {
+        GetNavigationListParams<DialogInfo> params = GetNavigationListParams.create(DialogInfo.class);
+        params.url = rootUrl + "//getDialogs";
+        params.limit = 10;
+        params.key = "dialogs";
+
+        return httpClient.getNavigationList(params);
+    }
 
     public void removeIOErrorListener(IOErrorListener ioErrorListener) {
         ioErrorListeners.remove(ioErrorListener);

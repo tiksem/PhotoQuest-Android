@@ -11,4 +11,5 @@ public class DialogInfo {
     public String lastMessage;
     public Long avatarId;
     public boolean sent;
+    public boolean read;
 }

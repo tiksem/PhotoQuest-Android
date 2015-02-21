@@ -5,4 +5,6 @@
     <color name="black">#000000</color>
     <color name="white">#ffffff</color>
     <color name="selected_item">#ff4088ff</color>
+    <color name="unread_message">#ffbbe1ff</color>
+    <color name="read_message">#ffffff</color>
 </resources>

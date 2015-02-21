@@ -1,6 +1,7 @@
 package com.pq.adapters;
 
 import android.content.Context;
+import android.graphics.drawable.ColorDrawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -54,5 +55,8 @@ public class DialogsAdapter extends NavigationListAdapter<DialogInfo, DialogHold
         holder.date.setText(date);
 
         holder.name.setText(dialogInfo.name + " " + dialogInfo.lastName);
+
+        int colorId = dialogInfo.read ? R.color.read_message : R.color.unread_message;
+        view.setBackgroundColor(view.getResources().getColor(colorId));
     }
 }

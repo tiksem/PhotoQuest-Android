@@ -297,6 +297,7 @@ public class JsonHttpClient {
                 }
             });
         }
+        Log.e("JsonHttpRequest", "", e);
     }
 
     public boolean isBinaryServerResponse() {

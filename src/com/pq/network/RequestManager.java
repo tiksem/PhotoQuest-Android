@@ -306,6 +306,15 @@ public class RequestManager implements ImageUrlProvider {
         return httpClient.getNavigationList(params);
     }
 
+    public NavigationList<Reply> getReplies() {
+        GetNavigationListParams<Reply> params = GetNavigationListParams.create(Reply.class);
+        params.url = rootUrl + "//getReplies";
+        params.limit = 10;
+        params.key = "replies";
+
+        return httpClient.getNavigationList(params);
+    }
+
     public void removeIOErrorListener(IOErrorListener ioErrorListener) {
         ioErrorListeners.remove(ioErrorListener);
     }

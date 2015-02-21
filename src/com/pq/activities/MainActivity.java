@@ -67,6 +67,8 @@ public class MainActivity extends NavigationDrawerActivity {
             return new NewsFragment();
         } else if(selectedItemId == R.id.dialogs) {
             return new DialogsFragment();
+        } else if(selectedItemId == R.id.replies) {
+            return new RepliesFragment();
         }
 
         return null;

@@ -33,6 +33,11 @@
     <string name="register_button">Register</string>
     <string name="please_wait">Please, wait...</string>
     <string name="messages">Messages</string>
+    <string name="comment_action">commented your photo</string>
+    <string name="like_action">liked your photo</string>
+    <string name="accept_request_action">accepted your friend request</string>
+    <string name="decline_request_action">declined your friend request</string>
+    <string name="replies">Replies</string>
 
     <string-array name="gender">
         <item>Male</item>

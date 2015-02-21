@@ -103,9 +103,9 @@ public class MainActivity extends NavigationDrawerActivity {
             } else if(selectedItemId == R.id.requests) {
                 return REQUESTS_TABS_COUNT;
             }
-        } else if(navigationLevel == Level.PHOTOS_NAVIGATION) {
+        } else if(navigationLevel == Level.PHOTOS) {
             return 1;
-        } else if(navigationLevel == Level.USER_NAVIGATION) {
+        } else if(navigationLevel == Level.USER) {
             return 1;
         }
 

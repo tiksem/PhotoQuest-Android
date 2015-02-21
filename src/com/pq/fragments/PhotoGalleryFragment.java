@@ -23,6 +23,7 @@ public abstract class PhotoGalleryFragment extends NavigationListFragment<Galler
 
     @Override
     protected void onListItemClicked(GalleryPhoto photo) {
-
+        PhotoFragment fragment = PhotoFragment.create(photo.getId());
+        replaceFragment(fragment, Level.PHOTOQUEST_PHOTO);
     }
 }

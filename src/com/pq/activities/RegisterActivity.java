@@ -106,7 +106,7 @@ public class RegisterActivity extends Activity {
             public void onFinish() {
                 progressDialog.dismiss();
             }
-        });
+        }, ioErrorListener);
     }
 
     private void onIOError(IOException e) {

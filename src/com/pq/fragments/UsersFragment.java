@@ -23,6 +23,6 @@ public abstract class UsersFragment extends NavigationListFragment<User> {
     @Override
     protected void onListItemClicked(User user) {
         ProfileFragment profileFragment = ProfileFragment.create(user.getId());
-        replaceFragment(profileFragment, Level.USER_NAVIGATION);
+        replaceFragment(profileFragment, Level.USER);
     }
 }

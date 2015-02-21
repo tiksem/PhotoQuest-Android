@@ -17,6 +17,6 @@ public abstract class PhotoquestsFragment extends NavigationListFragment<Photoqu
     @Override
     protected void onListItemClicked(Photoquest photoquest) {
         PhotoquestPhotosFragment fragment = PhotoquestPhotosFragment.create(photoquest.getId());
-        replaceFragment(fragment, Level.PHOTOS_NAVIGATION);
+        replaceFragment(fragment, Level.PHOTOS);
     }
 }

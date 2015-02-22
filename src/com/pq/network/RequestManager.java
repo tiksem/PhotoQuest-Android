@@ -315,6 +315,34 @@ public class RequestManager implements ImageUrlProvider {
         return httpClient.getNavigationList(params);
     }
 
+    public void getPhotoById(long photoId, OnSuccess<Photo> onSuccess) {
+        final GetParams<Photo> params = GetParams.create(Photo.class);
+        params.cachingTime = 0;
+        params.url = rootUrl + "//getPhotoById";
+        params.onSuccess = onSuccess;
+
+        params.params = new TreeMap<String, Object>();
+        params.params.put("id", photoId);
+        httpClient.get(params);
+    }
+
+    public void getNextPrevPhotoOfPhotoquest(long currentPhotoId, long photoquestId, boolean next,
+                                             PhotoCategory category,
+                                             OnSuccess<Photo> onSuccess) {
+        final GetParams<Photo> params = GetParams.create(Photo.class);
+        params.cachingTime = 0;
+        params.url = rootUrl + "//getNextPrevPhotoOfPhotoquest";
+        params.onSuccess = onSuccess;
+
+        params.params = new TreeMap<String, Object>();
+        params.params.put("photoId", currentPhotoId);
+        params.params.put("photoquestId", photoquestId);
+        params.params.put("next", next);
+        params.params.put("category", category);
+
+        httpClient.get(params);
+    }
+
     public void removeIOErrorListener(IOErrorListener ioErrorListener) {
         ioErrorListeners.remove(ioErrorListener);
     }

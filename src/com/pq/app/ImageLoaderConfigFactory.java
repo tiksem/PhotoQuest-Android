@@ -16,16 +16,7 @@ import com.pq.R;
  * To change this template use File | Settings | File Templates.
  */
 public class ImageLoaderConfigFactory {
-    public static ImageLoaderConfiguration getCommonImageLoaderConfig(Context context){
-        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
-
-        config.diskCacheSize(1024 * 1024 * 50);
-        config.denyCacheImageMultipleSizesInMemory();
-        config.memoryCacheSize(1024*1024*2);
-        config.tasksProcessingOrder(QueueProcessingType.FIFO);
-        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
-        config.threadPoolSize(2);
-
+    public static DisplayImageOptions.Builder displayImageOptions() {
         DisplayImageOptions.Builder displayImageOptions = new DisplayImageOptions.Builder();
         displayImageOptions.bitmapConfig(Bitmap.Config.RGB_565);
         displayImageOptions.cacheInMemory(true);
@@ -33,7 +24,20 @@ public class ImageLoaderConfigFactory {
         displayImageOptions.showImageForEmptyUri(R.drawable.empty_avatar);
         displayImageOptions.resetViewBeforeLoading(true);
         displayImageOptions.showImageOnLoading(R.drawable.empty_avatar);
-        config.defaultDisplayImageOptions(displayImageOptions.build());
+        return displayImageOptions;
+    }
+
+    public static ImageLoaderConfiguration getCommonImageLoaderConfig(Context context){
+        ImageLoaderConfiguration.Builder config = new ImageLoaderConfiguration.Builder(context);
+
+        config.diskCacheSize(1024 * 1024 * 50);
+        config.denyCacheImageMultipleSizesInMemory();
+        config.memoryCacheSize(1024 * 1024 * 2);
+        config.tasksProcessingOrder(QueueProcessingType.LIFO);
+        config.diskCacheFileNameGenerator(new Md5FileNameGenerator());
+        config.threadPoolSize(2);
+
+        config.defaultDisplayImageOptions(displayImageOptions().build());
 
         return config.build();
     }

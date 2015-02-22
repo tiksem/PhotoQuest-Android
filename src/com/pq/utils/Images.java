@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 import com.pq.R;
+import com.pq.app.ImageLoaderConfigFactory;
 import com.pq.network.ImageUrlProvider;
 import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.threading.OnComplete;
@@ -22,11 +23,18 @@ import java.io.IOException;
  */
 public class Images {
     private static ImageLoader imageLoader = ImageLoader.getInstance();
+    private static DisplayImageOptions displayImageOptions;
+    static {
+        DisplayImageOptions.Builder builder = ImageLoaderConfigFactory.displayImageOptions();
+        builder.showImageForEmptyUri(0);
+        builder.showImageOnLoading(0);
+        builder.cacheInMemory(false);
+        displayImageOptions = builder.build();
+    }
 
     public static void displayImage(String url, ImageView imageView, final OnComplete onComplete,
                                     final IOErrorListener ioErrorListener) {
-        DisplayImageOptions options = DisplayImageOptions.createSimple();
-        imageLoader.displayImage(url, imageView, options, new ImageLoadingListener() {
+        imageLoader.displayImage(url, imageView, displayImageOptions, new ImageLoadingListener() {
             @Override
             public void onLoadingStarted(String s, View view) {
                 
@@ -60,7 +68,6 @@ public class Images {
     public static void displayAvatar(final ImageUrlProvider imageUrlProvider,
                                      final ImageView imageView,
                                      final Long imageId) {
-        Log.i("Images", "Displaying image " + imageId + "requested");
         GuiUtilities.executeWhenViewMeasuredUsingLoop(imageView, new Runnable() {
             @Override
             public void run() {
@@ -72,8 +79,6 @@ public class Images {
                 } else {
                     imageView.setImageResource(R.drawable.empty_avatar);
                 }
-
-                Log.i("Images", "Displaying image " + imageId + "finished");
             }
         });
     }

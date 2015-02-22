@@ -1,8 +1,10 @@
 package com.pq.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import com.pq.data.GalleryPhoto;
+import com.pq.data.PhotoCategory;
 import com.pq.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.fragments.Fragments;
@@ -31,5 +33,12 @@ public class PhotoquestPhotosFragment extends PhotoGalleryFragment {
     @Override
     protected NavigationList<GalleryPhoto> getNavigationList(RequestManager requestManager) {
         return requestManager.getPhotosOfPhotoquest(photoquestId);
+    }
+
+    @Override
+    protected void onListItemClicked(GalleryPhoto photo) {
+        long photoId = photo.getId();
+        Fragment fragment = PhotoquestPhotosPagerFragment.create(photoquestId, photoId, PhotoCategory.all);
+        replaceFragment(fragment, Level.PHOTOQUEST_PHOTO);
     }
 }

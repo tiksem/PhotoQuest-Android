@@ -24,6 +24,7 @@ import java.io.IOException;
 public abstract class NavigationListFragment<T> extends NavigationDrawerFragment {
     private IOErrorListener ioErrorListener;
     private RequestManager requestManager;
+    private ViewArrayAdapter<T, ?> adapter;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,7 +38,7 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
 
         requestManager = PhotoQuestApp.getInstance().getRequestManager();
 
-        final ViewArrayAdapter<T, ?> adapter = createAdapter(requestManager);
+        adapter = createAdapter(requestManager);
         final NavigationList<T> elements = getNavigationList(requestManager);
 
         ListViewNavigationParams<T> params = new ListViewNavigationParams<T>();
@@ -74,6 +75,14 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
     public void onDestroyView() {
         super.onDestroyView();
         requestManager.removeIOErrorListener(ioErrorListener);
+    }
+
+    public RequestManager getRequestManager() {
+        return requestManager;
+    }
+
+    public ViewArrayAdapter<T, ?> getAdapter() {
+        return adapter;
     }
 
     protected int getListResourceId() {

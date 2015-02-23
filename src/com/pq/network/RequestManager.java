@@ -5,6 +5,7 @@ import com.pq.data.*;
 import com.utils.framework.Predicate;
 import com.utils.framework.Reflection;
 import com.utils.framework.collections.NavigationList;
+import com.utils.framework.strings.Strings;
 import com.utilsframework.android.IOErrorListener;
 import com.utilsframework.android.json.*;
 import com.utilsframework.android.json.OnSuccess;
@@ -340,6 +341,18 @@ public class RequestManager implements ImageUrlProvider {
         params.params.put("next", next);
         params.params.put("category", category);
 
+        httpClient.get(params);
+    }
+
+    public void sendMessage(String message, long toUserId, OnSuccess<Message> onSuccess) {
+        final GetParams<Message> params = GetParams.create(Message.class);
+        params.cachingTime = 0;
+        params.url = rootUrl + "//sendMessage";
+        params.onSuccess = onSuccess;
+
+        params.params = new TreeMap<String, Object>();
+        params.params.put("toUserId", toUserId);
+        params.params.put("message", message);
         httpClient.get(params);
     }
 

@@ -38,6 +38,7 @@
     <string name="accept_request_action">accepted your friend request</string>
     <string name="decline_request_action">declined your friend request</string>
     <string name="replies">Replies</string>
+    <string name="send_button">Send</string>
 
     <string-array name="gender">
         <item>Male</item>

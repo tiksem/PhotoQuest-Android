@@ -4,17 +4,7 @@
              android:layout_width="fill_parent"
              android:layout_height="fill_parent"
         >
-    <ImageView android:id="@+id/loading"
-               android:layout_gravity="center"
-               android:src="@drawable/mini_loading"
-               android:layout_width="30dp"
-               android:layout_height="30dp"/>
-    <TextView android:id="@+id/no_connection"
-              android:visibility="invisible"
-              android:layout_gravity="center"
-              android:text="@string/no_connection"
-              android:layout_width="wrap_content"
-              android:layout_height="wrap_content"/>
+    <include layout="@layout/no_connection_loading"> </include>
     <GridView android:id="@+id/list"
               android:numColumns="2"
               android:layout_width="match_parent"

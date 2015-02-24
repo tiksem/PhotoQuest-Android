@@ -245,6 +245,13 @@ public class RequestManager implements ImageUrlProvider {
         return httpClient.getNavigationList(params);
     }
 
+    public NavigationList<GalleryPhoto> getPhotosOfUser(long userId, Sorting sorting) {
+        GetNavigationListParams<GalleryPhoto> params = getPhotosParams("//getPhotosOfUser", sorting);
+        params.params.put("userId", userId);
+
+        return httpClient.getNavigationList(params);
+    }
+
     public static class Captcha {
         public long id;
     }

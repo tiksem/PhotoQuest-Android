@@ -8,4 +8,6 @@ public class Level {
     public static int PHOTOS = 2;
     public static int MESSAGES = 3;
     public static int PHOTOQUEST_PHOTO = 4;
+    public static int USER_PHOTOS = 5;
+    public static int USER_PHOTOQUESTS = 6;
 }

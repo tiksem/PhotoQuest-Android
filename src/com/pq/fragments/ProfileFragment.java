@@ -44,6 +44,15 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
         userId = Fragments.getLong(this, USER_ID, -1);
     }
 
+    private void openPhotos() {
+        UserPhotosFragment fragment = UserPhotosFragment.create(userId);
+        replaceFragment(fragment, Level.USER_PHOTOS);
+    }
+
+    private void openPhotoquests() {
+
+    }
+
     private View createHeader(ImageUrlProvider imageUrlProvider, User user) {
         View header = View.inflate(getActivity(), R.layout.profile_header, null);
         ImageView avatar = (ImageView) header.findViewById(R.id.avatar);
@@ -51,6 +60,20 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
 
         Images.displayAvatar(imageUrlProvider, avatar, user.getAvatarId());
         userName.setText(user.getName() + " " + user.getLastName());
+
+        header.findViewById(R.id.photos).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPhotos();
+            }
+        });
+
+        header.findViewById(R.id.photoquests).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openPhotoquests();
+            }
+        });
 
         return header;
     }

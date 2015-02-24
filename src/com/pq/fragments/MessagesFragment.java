@@ -3,16 +3,22 @@ package com.pq.fragments;
 import android.app.Activity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AbsListView;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import com.pq.R;
 import com.pq.adapters.MessagesAdapter;
 import com.pq.data.Message;
 import com.pq.network.RequestManager;
 import com.utils.framework.collections.NavigationList;
+import com.utilsframework.android.UiLoopEvent;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.json.OnSuccess;
+import com.utilsframework.android.view.GuiUtilities;
+
+import java.util.List;
 
 /**
  * Created by CM on 2/21/2015.
@@ -45,7 +51,38 @@ public class MessagesFragment extends NavigationListFragment<Message> {
 
     @Override
     protected NavigationList<Message> getNavigationList(RequestManager requestManager) {
-        return requestManager.getMessages(userId);
+        final NavigationList<Message> messages = requestManager.getMessages(userId);
+        messages.setManualPageLoading(true);
+        messages.setOnPageLoadingRequested(new NavigationList.OnPageLoadingRequested() {
+            boolean disabled = false;
+
+            @Override
+            public void onPageLoadingRequested(final int index) {
+                if(disabled){
+                    return;
+                }
+
+                if(listView.getFirstVisiblePosition() < 1){
+                    final int before = messages.size();
+
+                    disabled = true;
+                    messages.loadNextPage(new NavigationList.OnPageLoadingFinished() {
+                        @Override
+                        public void onLoadingFinished() {
+                            listView.smoothScrollToPositionFromTop(messages.size() - before, 0, 0);
+
+                            listView.postDelayed(new Runnable() {
+                                @Override
+                                public void run() {
+                                    disabled = false;
+                                }
+                            }, 200);
+                        }
+                    });
+                }
+            }
+        });
+        return messages;
     }
 
     @Override

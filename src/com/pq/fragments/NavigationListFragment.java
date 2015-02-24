@@ -25,6 +25,7 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
     private IOErrorListener ioErrorListener;
     private RequestManager requestManager;
     private ViewArrayAdapter<T, ?> adapter;
+    protected AbsListView listView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -37,6 +38,7 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
         super.onViewCreated(view, savedInstanceState);
 
         requestManager = PhotoQuestApp.getInstance().getRequestManager();
+        listView = (AbsListView) view.findViewById(getListResourceId());
 
         adapter = createAdapter(requestManager);
         final NavigationList<T> elements = getNavigationList(requestManager);
@@ -49,7 +51,6 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
         params.loadingViewId = getLoadingResourceId();
         AdapterUtils.initListViewNavigation(params);
 
-        final AbsListView listView = (AbsListView) view.findViewById(getListResourceId());
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {

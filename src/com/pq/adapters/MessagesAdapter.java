@@ -1,7 +1,9 @@
 package com.pq.adapters;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import com.pq.PhotoquestUtilities;
 import com.pq.R;
@@ -17,6 +19,7 @@ public class MessagesAdapter extends NavigationListAdapter<Message, MessageHolde
 
     public MessagesAdapter(Context context) {
         super(context);
+        setReverse(true);
     }
 
     @Override
@@ -55,5 +58,17 @@ public class MessagesAdapter extends NavigationListAdapter<Message, MessageHolde
         holder.message.setText(message.message);
         String date = PhotoquestUtilities.getDisplayDate(message.addingDate);
         holder.date.setText(date);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup viewGroup) {
+        Log.i("MessagesAdapter", "getView = " + position);
+        return super.getView(position, convertView, viewGroup);
+    }
+
+    @Override
+    public void notifyDataSetChanged() {
+        super.notifyDataSetChanged();
+        Log.i("ViewArrayAdapter", "notifyDataSetChanged");
     }
 }

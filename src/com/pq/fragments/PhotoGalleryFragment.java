@@ -19,4 +19,9 @@ public abstract class PhotoGalleryFragment extends NavigationListFragment<Galler
     protected int getRootLayout() {
         return R.layout.navigation_grid;
     }
+
+    @Override
+    protected int getSortMenuId() {
+        return R.menu.photo_sort;
+    }
 }

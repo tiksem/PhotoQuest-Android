@@ -227,13 +227,20 @@ public class RequestManager implements ImageUrlProvider {
         httpClient.get(params);
     }
 
-    public NavigationList<GalleryPhoto> getPhotosOfPhotoquest(long photoquestId) {
+    private GetNavigationListParams<GalleryPhoto> getPhotosParams(String url, Sorting sorting) {
         GetNavigationListParams<GalleryPhoto> params = new GetNavigationListParams<GalleryPhoto>();
-        params.url = rootUrl + "//getPhotosOfPhotoquest";
+        params.url = rootUrl + url;
         params.limit = 10;
         params.key = "photos";
         params.aClass = GalleryPhoto.class;
-        params.params = Collections.<String, Object>singletonMap("id", photoquestId);
+        params.params = new HashMap<String, Object>();
+        params.params.put("order", sorting);
+        return params;
+    }
+
+    public NavigationList<GalleryPhoto> getPhotosOfPhotoquest(long photoquestId, Sorting sorting) {
+        GetNavigationListParams<GalleryPhoto> params = getPhotosParams("//getPhotosOfPhotoquest", sorting);
+        params.params.put("id", photoquestId);
 
         return httpClient.getNavigationList(params);
     }

@@ -32,7 +32,7 @@ public class PhotoquestPhotosFragment extends PhotoGalleryFragment {
 
     @Override
     protected NavigationList<GalleryPhoto> getNavigationList(RequestManager requestManager) {
-        return requestManager.getPhotosOfPhotoquest(photoquestId);
+        return requestManager.getPhotosOfPhotoquest(photoquestId, getSortMode());
     }
 
     @Override

@@ -39,6 +39,9 @@
     <string name="decline_request_action">declined your friend request</string>
     <string name="replies">Replies</string>
     <string name="send_button">Send</string>
+    <string name="sort_by_rating">Sort by rating</string>
+    <string name="sort_by_adding_date">Sort by adding date</string>
+    <string name="sort">Sort</string>
 
     <string-array name="gender">
         <item>Male</item>

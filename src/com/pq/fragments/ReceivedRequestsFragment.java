@@ -11,6 +11,6 @@ import com.utils.framework.collections.OnAllDataLoaded;
 public class ReceivedRequestsFragment extends UsersFragment {
     @Override
     protected NavigationList<User> getNavigationList(RequestManager requestManager) {
-        return requestManager.getReceivedRequests();
+        return requestManager.getReceivedRequests(getSortMode());
     }
 }

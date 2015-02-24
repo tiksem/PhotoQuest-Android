@@ -1,5 +1,7 @@
 package com.pq.fragments;
 
+import android.os.Bundle;
+import android.view.*;
 import com.pq.R;
 import com.pq.adapters.UserListAdapter;
 import com.pq.data.User;
@@ -24,5 +26,10 @@ public abstract class UsersFragment extends NavigationListFragment<User> {
     protected void onListItemClicked(User user) {
         ProfileFragment profileFragment = ProfileFragment.create(user.getId());
         replaceFragment(profileFragment, Level.USER);
+    }
+
+    @Override
+    protected int getSortMenuId() {
+        return R.menu.people_sort;
     }
 }

@@ -11,6 +11,6 @@ import com.utils.framework.collections.OnAllDataLoaded;
 public class FriendsFragment extends UsersFragment {
     @Override
     protected NavigationList<User> getNavigationList(RequestManager requestManager) {
-        return requestManager.getFriends();
+        return requestManager.getFriends(getSortMode());
     }
 }

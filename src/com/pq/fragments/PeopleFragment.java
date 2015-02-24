@@ -11,6 +11,6 @@ import com.utils.framework.collections.OnAllDataLoaded;
 public class PeopleFragment extends UsersFragment {
     @Override
     protected NavigationList<User> getNavigationList(RequestManager requestManager) {
-        return requestManager.getUsers();
+        return requestManager.getUsers(getSortMode());
     }
 }

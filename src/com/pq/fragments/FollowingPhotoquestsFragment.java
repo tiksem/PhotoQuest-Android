@@ -11,6 +11,6 @@ import com.utils.framework.collections.OnAllDataLoaded;
 public class FollowingPhotoquestsFragment extends PhotoquestsFragment {
     @Override
     protected NavigationList<Photoquest> getNavigationList(RequestManager requestManager) {
-        return requestManager.getFollowingPhotoquests();
+        return requestManager.getFollowingPhotoquests(getSortMode());
     }
 }

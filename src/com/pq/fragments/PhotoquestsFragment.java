@@ -1,5 +1,6 @@
 package com.pq.fragments;
 
+import com.pq.R;
 import com.pq.adapters.PhotoquestsAdapter;
 import com.pq.data.Photoquest;
 import com.pq.network.RequestManager;
@@ -18,5 +19,10 @@ public abstract class PhotoquestsFragment extends NavigationListFragment<Photoqu
     protected void onListItemClicked(Photoquest photoquest) {
         PhotoquestPhotosFragment fragment = PhotoquestPhotosFragment.create(photoquest.getId());
         replaceFragment(fragment, Level.PHOTOS);
+    }
+
+    @Override
+    protected int getSortMenuId() {
+        return R.menu.photo_sort;
     }
 }

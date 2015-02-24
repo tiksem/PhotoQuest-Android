@@ -162,6 +162,8 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
             return Sorting.newest;
         } else if(selectedSortingModeId == R.id.sort_by_rating) {
             return Sorting.rated;
+        } else if(selectedSortingModeId == R.id.sort_hottest) {
+            return Sorting.hottest;
         } else {
             return null;
         }

@@ -14,7 +14,6 @@ import com.pq.utils.Images;
  * Created by CM on 12/26/2014.
  */
 public class PhotoquestsAdapter extends NavigationListAdapter<Photoquest, PhotoquestHolder> {
-    private static final int AVATAR_SIZE = 100;
     private ImageUrlProvider imageUrlProvider;
 
     public PhotoquestsAdapter(Context context, ImageUrlProvider imageUrlProvider) {

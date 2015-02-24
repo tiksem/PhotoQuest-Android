@@ -89,26 +89,27 @@ public class RequestManager implements ImageUrlProvider {
         return params;
     }
 
-    public NavigationList<Photoquest> getPhotoquests(String url) {
+    public NavigationList<Photoquest> getPhotoquests(String url, Sorting sorting) {
         GetNavigationListParams<Photoquest> params = initPhotoquestsNavigationListParams();
         params.url = rootUrl + url;
+        params.params.put("order", sorting);
         return httpClient.getNavigationList(params);
     }
 
-    public NavigationList<Photoquest> getAllPhotoquests() {
-        return getPhotoquests("//getPhotoquests");
+    public NavigationList<Photoquest> getAllPhotoquests(Sorting sorting) {
+        return getPhotoquests("//getPhotoquests", sorting);
     }
 
-    public NavigationList<Photoquest> getCreatedPhotoquests() {
-        return getPhotoquests( "//getCreatedPhotoquests");
+    public NavigationList<Photoquest> getCreatedPhotoquests(Sorting sorting) {
+        return getPhotoquests( "//getCreatedPhotoquests", sorting);
     }
 
-    public NavigationList<Photoquest> getPerformedPhotoquests() {
-        return getPhotoquests("//getPerformedPhotoquests");
+    public NavigationList<Photoquest> getPerformedPhotoquests(Sorting sorting) {
+        return getPhotoquests("//getPerformedPhotoquests", sorting);
     }
 
-    public NavigationList<Photoquest> getFollowingPhotoquests() {
-        return getPhotoquests("//getFollowingPhotoquests");
+    public NavigationList<Photoquest> getFollowingPhotoquests(Sorting sorting) {
+        return getPhotoquests("//getFollowingPhotoquests", sorting);
     }
 
     public interface LoginListener {

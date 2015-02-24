@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:icon="@drawable/sort"
+          android:showAsAction="ifRoom|withText"
+          android:title="@string/sort">
+        <menu>
+            <group android:checkableBehavior="single"
+                   android:id="@+id/action_sort">
+                <item
+                        android:id="@+id/sort_by_rating"
+                        android:checked="true"
+                        android:title="@string/sort_photo_rating"/>
+
+                <item
+                        android:id="@+id/sort_adding_date"
+                        android:title="@string/sort_photo_adding_date"/>
+
+                <item
+                        android:id="@+id/sort_hottest"
+                        android:title="@string/sort_hottest"/>
+            </group>
+
+        </menu>
+    </item>
+</menu>

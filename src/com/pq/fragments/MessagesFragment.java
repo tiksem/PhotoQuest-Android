@@ -103,7 +103,9 @@ public class MessagesFragment extends NavigationListFragment<Message> {
         getRequestManager().sendMessage(text, userId, new OnSuccess<Message>() {
             @Override
             public void onSuccess(Message result) {
-                getAdapter().addElementToFront(result);
+                ViewArrayAdapter<Message, ?> adapter = getAdapter();
+                adapter.addElementToFront(result);
+                listView.smoothScrollToPositionFromTop(adapter.getCount() - 1, 0, 0);
             }
         });
     }

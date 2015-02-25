@@ -1,6 +1,7 @@
 package com.pq.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
@@ -50,7 +51,9 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
     }
 
     private void openPhotoquests() {
-
+        Fragment fragment = PhotoquestsFragment.create(getActivity(), userId,
+                CreatedPhotoquestsFragment.class);
+        replaceFragment(fragment, Level.USER_PHOTOQUESTS);
     }
 
     private View createHeader(ImageUrlProvider imageUrlProvider, User user) {

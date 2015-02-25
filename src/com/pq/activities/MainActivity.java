@@ -110,6 +110,24 @@ public class MainActivity extends NavigationDrawerActivity {
             PhotoquestPhotosFragment fragment = (PhotoquestPhotosFragment) getCurrentFragment();
             long photoquestId = fragment.getPhotoquestId();
             return PhotoquestPhotosFragment.create(photoquestId, category, photoLevel);
+        } else if(navigationLevel == Level.USER_PHOTOQUESTS) {
+            tabIndex++;
+
+            PhotoquestsFragment fragment = (PhotoquestsFragment) getCurrentFragment();
+            long userId = fragment.getUserId();
+            Class<? extends PhotoquestsFragment> aClass;
+
+            if(tabIndex == CREATED_PHOTOQUESTS_TAB) {
+                aClass = CreatedPhotoquestsFragment.class;
+            } else if(tabIndex == PERFORMED_PHOTOQUESTS_TAB) {
+                aClass = PerformedPhotoquestsFragment.class;
+            } else if(tabIndex == FOLLOWING_PHOTOQUESTS_TAB) {
+                aClass = FollowingPhotoquestsFragment.class;
+            } else {
+                throw new RuntimeException("WTF?");
+            }
+
+            return PhotoquestsFragment.create(this, userId, aClass);
         }
 
         return null;
@@ -143,6 +161,8 @@ public class MainActivity extends NavigationDrawerActivity {
             } else if(tabIndex == MINE_PHOTOS_TAB) {
                 tab.setText(R.string.mine);
             }
+        } else if(navigationLevel == Level.USER_PHOTOQUESTS) {
+            initTab(R.id.photoquests, tabIndex + 1, Level.ROOT, tab);
         }
     }
 
@@ -156,8 +176,8 @@ public class MainActivity extends NavigationDrawerActivity {
             }
         } else if(navigationLevel == Level.PHOTOQUEST_PHOTOS) {
             return PHOTOQUEST_PHOTOS_TABS_COUNT;
-        } else if(navigationLevel == Level.USER) {
-            return 1;
+        } else if(navigationLevel == Level.USER_PHOTOQUESTS) {
+            return PHOTOQUEST_TABS_COUNT - 1;
         }
 
         return 1;

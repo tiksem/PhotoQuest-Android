@@ -45,6 +45,8 @@
     <string name="sort_hottest">Hottest</string>
     <string name="sort_photo_adding_date">Newest</string>
     <string name="sort_photo_rating">Most Rated</string>
+    <string name="friends_photos">Friends</string>
+    <string name="mine">Mine</string>
 
     <string-array name="gender">
         <item>Male</item>

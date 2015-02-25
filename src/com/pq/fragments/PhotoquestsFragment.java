@@ -2,6 +2,7 @@ package com.pq.fragments;
 
 import com.pq.R;
 import com.pq.adapters.PhotoquestsAdapter;
+import com.pq.data.PhotoCategory;
 import com.pq.data.Photoquest;
 import com.pq.network.RequestManager;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
@@ -17,8 +18,9 @@ public abstract class PhotoquestsFragment extends NavigationListFragment<Photoqu
 
     @Override
     protected void onListItemClicked(Photoquest photoquest) {
-        PhotoquestPhotosFragment fragment = PhotoquestPhotosFragment.create(photoquest.getId());
-        replaceFragment(fragment, Level.PHOTOS);
+        PhotoquestPhotosFragment fragment = PhotoquestPhotosFragment.create(photoquest.getId(), PhotoCategory.all,
+                Level.PHOTOQUEST_ALL_PHOTO);
+        replaceFragment(fragment, Level.PHOTOQUEST_PHOTOS);
     }
 
     @Override

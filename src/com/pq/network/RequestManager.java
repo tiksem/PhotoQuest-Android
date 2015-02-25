@@ -238,9 +238,11 @@ public class RequestManager implements ImageUrlProvider {
         return params;
     }
 
-    public NavigationList<GalleryPhoto> getPhotosOfPhotoquest(long photoquestId, Sorting sorting) {
+    public NavigationList<GalleryPhoto> getPhotosOfPhotoquest(long photoquestId, PhotoCategory category,
+                                                              Sorting sorting) {
         GetNavigationListParams<GalleryPhoto> params = getPhotosParams("//getPhotosOfPhotoquest", sorting);
         params.params.put("id", photoquestId);
+        params.params.put("category", category);
 
         return httpClient.getNavigationList(params);
     }

@@ -47,6 +47,8 @@
     <string name="sort_photo_rating">Most Rated</string>
     <string name="friends_photos">Friends</string>
     <string name="mine">Mine</string>
+    <string name="add_friend">Add Friend</string>
+    <string name="write_message">Write Message</string>
 
     <string-array name="gender">
         <item>Male</item>

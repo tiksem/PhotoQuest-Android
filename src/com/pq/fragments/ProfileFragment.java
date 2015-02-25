@@ -56,6 +56,15 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
         replaceFragment(fragment, Level.USER_PHOTOQUESTS);
     }
 
+    private void addFriend() {
+
+    }
+
+    private void writeMessage() {
+        Fragment fragment = MessagesFragment.create(userId);
+        replaceFragment(fragment, Level.WRITE_MESSAGE);
+    }
+
     private View createHeader(ImageUrlProvider imageUrlProvider, User user) {
         View header = View.inflate(getActivity(), R.layout.profile_header, null);
         ImageView avatar = (ImageView) header.findViewById(R.id.avatar);
@@ -75,6 +84,20 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
             @Override
             public void onClick(View v) {
                 openPhotoquests();
+            }
+        });
+
+        header.findViewById(R.id.writeMessage).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                writeMessage();
+            }
+        });
+
+        header.findViewById(R.id.addFriend).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addFriend();
             }
         });
 

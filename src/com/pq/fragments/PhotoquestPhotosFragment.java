@@ -38,7 +38,8 @@ public class PhotoquestPhotosFragment extends PhotoGalleryFragment {
     @Override
     protected void onListItemClicked(GalleryPhoto photo) {
         long photoId = photo.getId();
-        Fragment fragment = PhotoquestPhotosPagerFragment.create(photoquestId, photoId, PhotoCategory.all);
+        Fragment fragment = PhotoquestPhotosPagerFragment.create(photoquestId, photoId, PhotoCategory.all,
+                getSortMode());
         replaceFragment(fragment, Level.PHOTOQUEST_PHOTO);
     }
 }

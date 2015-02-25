@@ -1,17 +1,12 @@
 package com.pq.fragments;
 
-import android.app.Activity;
 import android.app.Fragment;
-import android.app.FragmentManager;
 import android.os.Bundle;
-import android.support.v13.app.FragmentStatePagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import com.pq.R;
-import com.pq.network.RequestManager;
-import com.utilsframework.android.IOErrorListener;
+import com.pq.data.Sorting;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.threading.OnComplete;
 import com.utilsframework.android.view.NextPrevCyclingViewPager;
@@ -21,14 +16,18 @@ import com.utilsframework.android.view.NextPrevCyclingViewPager;
  */
 public abstract class PhotosPagerFragment extends Fragment {
     private static final String PHOTO_ID = "photoId";
+    private static final String SORTING = "sorting";
 
-    public static Bundle getArgs(long photoId) {
+    public static Bundle getArgs(long photoId, Sorting sorting) {
         Bundle args = new Bundle();
         args.putLong(PHOTO_ID, photoId);
+        args.putInt(SORTING, sorting.ordinal());
         return args;
     }
 
     private class Adapter implements NextPrevCyclingViewPager.Adapter<AbstractPhotoFragment> {
+        Sorting sorting = Sorting.values()[Fragments.getInt(PhotosPagerFragment.this, SORTING, 0)];
+
         @Override
         public AbstractPhotoFragment createFirstFragment(OnComplete onComplete) {
             long photoId = Fragments.getLong(PhotosPagerFragment.this, PHOTO_ID, -1);
@@ -40,7 +39,7 @@ public abstract class PhotosPagerFragment extends Fragment {
         @Override
         public AbstractPhotoFragment createNextFragment(AbstractPhotoFragment currentFragment,
                                                         OnComplete onComplete) {
-            AbstractPhotoFragment fragment = createNextPrevFragment(currentFragment.getPhotoId(), true);
+            AbstractPhotoFragment fragment = createNextPrevFragment(currentFragment.getPhotoId(), true, sorting);
             fragment.setOnComplete(onComplete);
             return fragment;
         }
@@ -48,7 +47,7 @@ public abstract class PhotosPagerFragment extends Fragment {
         @Override
         public AbstractPhotoFragment createPrevFragment(AbstractPhotoFragment currentFragment,
                                                         OnComplete onComplete) {
-            AbstractPhotoFragment fragment = createNextPrevFragment(currentFragment.getPhotoId(), false);
+            AbstractPhotoFragment fragment = createNextPrevFragment(currentFragment.getPhotoId(), false, sorting);
             fragment.setOnComplete(onComplete);
             return fragment;
         }
@@ -66,5 +65,6 @@ public abstract class PhotosPagerFragment extends Fragment {
         viewPager.setNextPrevAdapter(new Adapter());
     }
 
-    protected abstract NextPrevPhotoFragment createNextPrevFragment(long currentPhotoId, boolean next);
+    protected abstract NextPrevPhotoFragment createNextPrevFragment(long currentPhotoId, boolean next,
+                                                                    Sorting sorting);
 }

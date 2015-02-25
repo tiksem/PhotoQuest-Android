@@ -1,6 +1,7 @@
 package com.pq.fragments;
 
 import android.app.Activity;
+import android.app.Fragment;
 import android.os.Bundle;
 import com.pq.data.GalleryPhoto;
 import com.pq.network.RequestManager;
@@ -34,7 +35,10 @@ public class UserPhotosFragment extends PhotoGalleryFragment {
     }
 
     @Override
-    protected void onListItemClicked(GalleryPhoto item) {
-
+    protected void onListItemClicked(GalleryPhoto photo) {
+        long photoId = photo.getId();
+        Fragment fragment = UserPhotosPagerFragment.create(userId, photoId,
+                getSortMode());
+        replaceFragment(fragment, Level.USER_PHOTO);
     }
 }

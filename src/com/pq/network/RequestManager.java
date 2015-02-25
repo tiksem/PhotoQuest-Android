@@ -343,19 +343,40 @@ public class RequestManager implements ImageUrlProvider {
         httpClient.get(params);
     }
 
-    public void getNextPrevPhotoOfPhotoquest(long currentPhotoId, long photoquestId, boolean next,
-                                             PhotoCategory category,
-                                             OnSuccess<Photo> onSuccess) {
+    private GetParams<Photo> getNextPrevPhotoParams(String url, long photoId, boolean next,
+                                                    Sorting sorting,
+                                                    OnSuccess<Photo> onSuccess) {
         final GetParams<Photo> params = GetParams.create(Photo.class);
         params.cachingTime = 0;
-        params.url = rootUrl + "//getNextPrevPhotoOfPhotoquest";
+        params.url = rootUrl + url;
         params.onSuccess = onSuccess;
 
         params.params = new TreeMap<String, Object>();
-        params.params.put("photoId", currentPhotoId);
-        params.params.put("photoquestId", photoquestId);
+        params.params.put("photoId", photoId);
         params.params.put("next", next);
+        params.params.put("order", sorting);
+
+        return params;
+    }
+
+    public void getNextPrevPhotoOfPhotoquest(long currentPhotoId, long photoquestId, boolean next,
+                                             PhotoCategory category,
+                                             Sorting sorting,
+                                             OnSuccess<Photo> onSuccess) {
+        final GetParams<Photo> params = getNextPrevPhotoParams("//getNextPrevPhotoOfPhotoquest",
+                currentPhotoId, next, sorting, onSuccess);
+        params.params.put("photoquestId", photoquestId);
         params.params.put("category", category);
+
+        httpClient.get(params);
+    }
+
+    public void getNextPrevPhotoOfUser(long currentPhotoId, long userId, boolean next,
+                                       Sorting sorting,
+                                       OnSuccess<Photo> onSuccess) {
+        final GetParams<Photo> params = getNextPrevPhotoParams("//getNextPrevPhotoOfUser",
+                currentPhotoId, next, sorting, onSuccess);
+        params.params.put("userId", userId);
 
         httpClient.get(params);
     }

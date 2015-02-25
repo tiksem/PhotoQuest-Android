@@ -4,9 +4,12 @@ import android.app.ActionBar;
 import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import com.pq.R;
+import com.pq.app.PhotoQuestApp;
 import com.pq.data.PhotoCategory;
 import com.pq.fragments.*;
+import com.pq.network.RequestManager;
 import com.utilsframework.android.navigation.NavigationDrawerActivity;
 
 /**
@@ -28,9 +31,17 @@ public class MainActivity extends NavigationDrawerActivity {
     private static final int MINE_PHOTOS_TAB = 2;
     private static final int PHOTOQUEST_PHOTOS_TABS_COUNT = 3;
 
+    private RequestManager requestManager;
+
     public static void start(Context context) {
         Intent intent = new Intent(context, MainActivity.class);
         context.startActivity(intent);
+    }
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        requestManager = PhotoQuestApp.getInstance().getRequestManager();
+        super.onCreate(savedInstanceState);
     }
 
     @Override
@@ -76,6 +87,8 @@ public class MainActivity extends NavigationDrawerActivity {
                 return new DialogsFragment();
             } else if(selectedItemId == R.id.replies) {
                 return new RepliesFragment();
+            } else if(selectedItemId == R.id.photos) {
+                return UserPhotosFragment.create(requestManager.getSignedInUser().getId());
             }
         } else if(navigationLevel == Level.PHOTOQUEST_PHOTOS) {
             int photoLevel;

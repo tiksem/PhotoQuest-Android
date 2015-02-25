@@ -38,6 +38,14 @@
               android:layout_width="match_parent"
               android:paddingLeft="10dp"
               android:layout_height="50dp"/>
+    <TextView android:id="@+id/photos"
+              android:background="@drawable/navigation_item"
+              android:text="@string/photos"
+              android:textColor="@color/white"
+              android:gravity="center_vertical"
+              android:layout_width="match_parent"
+              android:paddingLeft="10dp"
+              android:layout_height="50dp"/>
     <TextView android:id="@+id/friends"
               android:background="@drawable/navigation_item"
               android:text="@string/friends"

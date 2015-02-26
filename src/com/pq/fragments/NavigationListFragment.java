@@ -126,10 +126,6 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
         return 0;
     }
 
-    protected int getSearchMenuId() {
-        return R.menu.search;
-    }
-
     protected boolean hasSearchMenu() {
         return false;
     }

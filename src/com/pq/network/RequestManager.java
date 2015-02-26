@@ -50,30 +50,34 @@ public class RequestManager implements ImageUrlProvider {
         return rootUrl + "/captcha/" + captchaId;
     }
 
-    private NavigationList<User> getUsers(String url, Sorting sorting) {
+    private NavigationList<User> getUsers(String url, Sorting sorting, String filter) {
         GetNavigationListParams<User> params = new GetNavigationListParams<User>();
         params.url = rootUrl + url;
         params.limit = 10;
         params.key = "users";
         params.aClass = User.class;
-        params.params = Collections.<String, Object>singletonMap("order", sorting);
+        params.params = new HashMap<String, Object>();
+        params.params.put("order", sorting);
+        if (filter != null) {
+            params.params.put("query", filter);
+        }
         return httpClient.getNavigationList(params);
     }
 
-    public NavigationList<User> getUsers(Sorting sorting) {
-        return getUsers("//users", sorting);
+    public NavigationList<User> getUsers(Sorting sorting, String filter) {
+        return getUsers("//users", sorting, filter);
     }
 
-    public NavigationList<User> getFriends(Sorting sorting) {
-        return getUsers("//friends", sorting);
+    public NavigationList<User> getFriends(Sorting sorting, String filter) {
+        return getUsers("//friends", sorting, filter);
     }
 
-    public NavigationList<User> getReceivedRequests(Sorting sorting) {
-        return getUsers("//getReceivedFriendRequests", sorting);
+    public NavigationList<User> getReceivedRequests(Sorting sorting, String filter) {
+        return getUsers("//getReceivedFriendRequests", sorting, filter);
     }
 
-    public NavigationList<User> getSentRequests(Sorting sorting) {
-        return getUsers("//getSentFriendRequests", sorting);
+    public NavigationList<User> getSentRequests(Sorting sorting, String filter) {
+        return getUsers("//getSentFriendRequests", sorting, filter);
     }
 
     private GetNavigationListParams<Photoquest>

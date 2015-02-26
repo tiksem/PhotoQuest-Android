@@ -10,6 +10,6 @@ import com.utils.framework.collections.NavigationList;
 public class SentRequestsFragment extends UsersFragment {
     @Override
     protected NavigationList<User> getNavigationList(RequestManager requestManager, String filter) {
-        return requestManager.getSentRequests(getSortMode());
+        return requestManager.getSentRequests(getSortMode(), filter);
     }
 }

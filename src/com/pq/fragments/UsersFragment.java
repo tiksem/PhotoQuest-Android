@@ -32,4 +32,9 @@ public abstract class UsersFragment extends NavigationListFragment<User> {
     protected int getSortMenuId() {
         return R.menu.people_sort;
     }
+
+    @Override
+    protected boolean hasSearchMenu() {
+        return true;
+    }
 }

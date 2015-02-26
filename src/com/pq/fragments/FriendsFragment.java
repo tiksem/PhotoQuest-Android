@@ -10,6 +10,6 @@ import com.utils.framework.collections.NavigationList;
 public class FriendsFragment extends UsersFragment {
     @Override
     protected NavigationList<User> getNavigationList(RequestManager requestManager, String filter) {
-        return requestManager.getFriends(getSortMode());
+        return requestManager.getFriends(getSortMode(), filter);
     }
 }

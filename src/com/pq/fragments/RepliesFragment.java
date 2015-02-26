@@ -16,7 +16,7 @@ public class RepliesFragment extends NavigationListFragment<Reply> {
     }
 
     @Override
-    protected NavigationList<Reply> getNavigationList(RequestManager requestManager) {
+    protected NavigationList<Reply> getNavigationList(RequestManager requestManager, String filter) {
         return requestManager.getReplies();
     }
 

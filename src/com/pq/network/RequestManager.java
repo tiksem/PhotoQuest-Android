@@ -89,7 +89,7 @@ public class RequestManager implements ImageUrlProvider {
         return params;
     }
 
-    public NavigationList<Photoquest> getPhotoquests(String url, Sorting sorting, long userId) {
+    public NavigationList<Photoquest> getPhotoquests(String url, Sorting sorting, long userId, String filter) {
         if(userId < 0){
             userId = getSignedInUser().getId();
         }
@@ -98,24 +98,27 @@ public class RequestManager implements ImageUrlProvider {
         params.url = rootUrl + url;
         params.params.put("order", sorting);
         params.params.put("userId", userId);
+        if (filter != null) {
+            params.params.put("filter", filter);
+        }
 
         return httpClient.getNavigationList(params);
     }
 
-    public NavigationList<Photoquest> getAllPhotoquests(long userId, Sorting sorting) {
-        return getPhotoquests("//getPhotoquests", sorting, userId);
+    public NavigationList<Photoquest> getAllPhotoquests(long userId, Sorting sorting, String filter) {
+        return getPhotoquests("//getPhotoquests", sorting, userId, filter);
     }
 
-    public NavigationList<Photoquest> getCreatedPhotoquests(long userId, Sorting sorting) {
-        return getPhotoquests( "//getCreatedPhotoquests", sorting, userId);
+    public NavigationList<Photoquest> getCreatedPhotoquests(long userId, Sorting sorting, String filter) {
+        return getPhotoquests( "//getCreatedPhotoquests", sorting, userId, filter);
     }
 
-    public NavigationList<Photoquest> getPerformedPhotoquests(long userId, Sorting sorting) {
-        return getPhotoquests("//getPerformedPhotoquests", sorting, userId);
+    public NavigationList<Photoquest> getPerformedPhotoquests(long userId, Sorting sorting, String filter) {
+        return getPhotoquests("//getPerformedPhotoquests", sorting, userId, filter);
     }
 
-    public NavigationList<Photoquest> getFollowingPhotoquests(long userId, Sorting sorting) {
-        return getPhotoquests("//getFollowingPhotoquests", sorting, userId);
+    public NavigationList<Photoquest> getFollowingPhotoquests(long userId, Sorting sorting, String filter) {
+        return getPhotoquests("//getFollowingPhotoquests", sorting, userId, filter);
     }
 
     public interface LoginListener {

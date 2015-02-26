@@ -16,7 +16,7 @@ public class NewsFragment extends NavigationListFragment<Feed> {
     }
 
     @Override
-    protected NavigationList<Feed> getNavigationList(RequestManager requestManager) {
+    protected NavigationList<Feed> getNavigationList(RequestManager requestManager, String filter) {
         return requestManager.getNews();
     }
 

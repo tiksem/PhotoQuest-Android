@@ -17,7 +17,6 @@ import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.json.OnSuccess;
-import com.utilsframework.android.threading.Threading;
 
 /**
  * Created by CM on 1/20/2015.
@@ -127,7 +126,7 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
     }
 
     @Override
-    protected NavigationList<Feed> getNavigationList(RequestManager requestManager) {
+    protected NavigationList<Feed> getNavigationList(RequestManager requestManager, String filter) {
         return requestManager.getUserActivity(userId);
     }
 

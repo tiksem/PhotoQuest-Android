@@ -52,4 +52,9 @@ public abstract class PhotoquestsFragment extends NavigationListFragment<Photoqu
     public long getUserId() {
         return userId;
     }
+
+    @Override
+    protected boolean hasSearchMenu() {
+        return true;
+    }
 }

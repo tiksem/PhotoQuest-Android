@@ -16,7 +16,7 @@ public class DialogsFragment extends NavigationListFragment<DialogInfo> {
     }
 
     @Override
-    protected NavigationList<DialogInfo> getNavigationList(RequestManager requestManager) {
+    protected NavigationList<DialogInfo> getNavigationList(RequestManager requestManager, String filter) {
         return requestManager.getDialogs();
     }
 

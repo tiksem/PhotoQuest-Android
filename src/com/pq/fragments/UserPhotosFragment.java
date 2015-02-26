@@ -30,7 +30,7 @@ public class UserPhotosFragment extends PhotoGalleryFragment {
     }
 
     @Override
-    protected NavigationList<GalleryPhoto> getNavigationList(RequestManager requestManager) {
+    protected NavigationList<GalleryPhoto> getNavigationList(RequestManager requestManager, String filter) {
         return requestManager.getPhotosOfUser(userId, getSortMode());
     }
 

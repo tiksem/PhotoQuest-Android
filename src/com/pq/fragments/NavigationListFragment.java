@@ -1,10 +1,10 @@
 package com.pq.fragments;
 
-import android.app.Fragment;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.SearchView;
 import com.pq.R;
 import com.pq.app.PhotoQuestApp;
 import com.pq.data.Sorting;
@@ -20,7 +20,6 @@ import com.utilsframework.android.menu.MenuManager;
 import com.utilsframework.android.view.GuiUtilities;
 
 import java.io.IOException;
-import java.util.Queue;
 
 /**
  * Created by CM on 12/26/2014.
@@ -93,7 +92,7 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
     }
 
     protected abstract ViewArrayAdapter<T, ? extends Object> createAdapter(RequestManager requestManager);
-    protected abstract NavigationList<T> getNavigationList(RequestManager requestManager);
+    protected abstract NavigationList<T> getNavigationList(RequestManager requestManager, String filter);
 
     protected abstract void onListItemClicked(T item);
 
@@ -105,12 +104,12 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
         return R.id.no_connection;
     }
 
-    public void updateNavigationList() {
+    public void updateNavigationList(String filter) {
         if (navigation != null) {
             navigation.destroy();
         }
 
-        final NavigationList<T> elements = getNavigationList(requestManager);
+        final NavigationList<T> elements = getNavigationList(requestManager, filter);
 
         ListViewNavigationParams<T> params = new ListViewNavigationParams<T>();
         params.viewArrayAdapter = adapter;
@@ -125,19 +124,51 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
         return 0;
     }
 
+    protected int getSearchMenuId() {
+        return R.menu.search;
+    }
+
+    protected boolean hasSearchMenu() {
+        return false;
+    }
+
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         int sortMenuId = getSortMenuId();
         if (sortMenuId != 0) {
             inflater.inflate(sortMenuId, menu);
         }
+        if(hasSearchMenu()){
+            initSearchMenu(menu, inflater);
+        }
+
         super.onCreateOptionsMenu(menu, inflater);
         menuManager = new MenuManager(menu);
 
         Fragments.executeWhenViewCreated(this, new GuiUtilities.OnViewCreated() {
             @Override
             public void onViewCreated(View view) {
-                updateNavigationList();
+                updateNavigationList(null);
+            }
+        });
+    }
+
+    private void initSearchMenu(Menu menu, MenuInflater inflater) {
+        inflater.inflate(getSearchMenuId(), menu);
+        final MenuItem searchItem = menu.findItem(R.id.action_search);
+
+        SearchView searchView = (SearchView) searchItem.getActionView();
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                updateNavigationList(query);
+                searchItem.collapseActionView();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
             }
         });
     }
@@ -150,7 +181,7 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
 
         if(item.getGroupId() == R.id.action_sort){
             item.setChecked(true);
-            updateNavigationList();
+            updateNavigationList(null);
         }
 
         return true;

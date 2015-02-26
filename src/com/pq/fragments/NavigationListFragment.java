@@ -17,6 +17,8 @@ import com.utilsframework.android.adapters.ListViewNavigationParams;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.menu.MenuManager;
+import com.utilsframework.android.menu.SearchListener;
+import com.utilsframework.android.menu.SearchMenuAction;
 import com.utilsframework.android.view.GuiUtilities;
 
 import java.io.IOException;
@@ -139,7 +141,13 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
             inflater.inflate(sortMenuId, menu);
         }
         if(hasSearchMenu()){
-            initSearchMenu(menu, inflater);
+            SearchMenuAction search = new SearchMenuAction(inflater, menu);
+            search.setSearchListener(new SearchListener() {
+                @Override
+                public void onSearch(String filter) {
+                    updateNavigationList(filter);
+                }
+            });
         }
 
         super.onCreateOptionsMenu(menu, inflater);
@@ -149,26 +157,6 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
             @Override
             public void onViewCreated(View view) {
                 updateNavigationList(null);
-            }
-        });
-    }
-
-    private void initSearchMenu(Menu menu, MenuInflater inflater) {
-        inflater.inflate(getSearchMenuId(), menu);
-        final MenuItem searchItem = menu.findItem(R.id.action_search);
-
-        SearchView searchView = (SearchView) searchItem.getActionView();
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                updateNavigationList(query);
-                searchItem.collapseActionView();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
             }
         });
     }

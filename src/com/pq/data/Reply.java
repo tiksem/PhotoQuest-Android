@@ -17,4 +17,5 @@ public class Reply {
     public Long photoId;
     public long avatarId;
     public long addingDate;
+    public long userId;
 }

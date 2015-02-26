@@ -1,5 +1,6 @@
 package com.pq.adapters;
 
+import android.app.Fragment;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
@@ -8,13 +9,17 @@ import com.pq.PhotoquestUtilities;
 import com.pq.R;
 import com.pq.adapters.holders.ReplyHolder;
 import com.pq.data.Reply;
+import com.pq.fragments.Level;
+import com.pq.fragments.PhotoFragment;
+import com.pq.fragments.PhotoquestPhotosPagerFragment;
+import com.pq.fragments.ProfileFragment;
 import com.pq.network.RequestManager;
 import com.pq.utils.Images;
 
 /**
  * Created by CM on 2/21/2015.
  */
-public class RepliesAdapter extends NavigationListAdapter<Reply, ReplyHolder> {
+public abstract class RepliesAdapter extends NavigationListAdapter<Reply, ReplyHolder> {
     private RequestManager requestManager;
     private Context context;
 
@@ -56,16 +61,30 @@ public class RepliesAdapter extends NavigationListAdapter<Reply, ReplyHolder> {
     }
 
     @Override
-    protected void reuseView(Reply reply, ReplyHolder holder, int position, View view) {
+    protected void reuseView(final Reply reply, ReplyHolder holder, int position, View view) {
         holder.name.setText(reply.name);
         holder.date.setText(PhotoquestUtilities.getDisplayDate(reply.addingDate));
         holder.action.setText(getAction(reply.type));
 
         Images.displayAvatar(requestManager, holder.avatar, reply.avatarId);
+        holder.avatar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ProfileFragment fragment = ProfileFragment.create(reply.userId);
+                replaceFragment(fragment, Level.REPLY_PROFILE);
+            }
+        });
 
         if (reply.photoId != null) {
             Images.displayAvatar(requestManager, holder.photo, reply.photoId);
             holder.photo.setVisibility(View.VISIBLE);
+            holder.photo.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    PhotoFragment fragment = PhotoFragment.create(reply.photoId);
+                    replaceFragment(fragment, Level.REPLY_PHOTO);
+                }
+            });
         } else {
             holder.photo.setVisibility(View.GONE);
         }
@@ -77,4 +96,6 @@ public class RepliesAdapter extends NavigationListAdapter<Reply, ReplyHolder> {
             holder.comment.setVisibility(View.GONE);
         }
     }
+
+    protected abstract void replaceFragment(Fragment newFragment, int navigationLevel);
 }

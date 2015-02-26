@@ -1,5 +1,6 @@
 package com.pq.fragments;
 
+import android.app.Fragment;
 import com.pq.adapters.RepliesAdapter;
 import com.pq.data.Reply;
 import com.pq.network.RequestManager;
@@ -12,7 +13,12 @@ import com.utilsframework.android.adapters.ViewArrayAdapter;
 public class RepliesFragment extends NavigationListFragment<Reply> {
     @Override
     protected ViewArrayAdapter<Reply, ?> createAdapter(RequestManager requestManager) {
-        return new RepliesAdapter(getActivity(), requestManager);
+        return new RepliesAdapter(getActivity(), requestManager) {
+            @Override
+            protected void replaceFragment(Fragment newFragment, int navigationLevel) {
+                RepliesFragment.this.replaceFragment(newFragment, navigationLevel);
+            }
+        };
     }
 
     @Override
@@ -21,7 +27,7 @@ public class RepliesFragment extends NavigationListFragment<Reply> {
     }
 
     @Override
-    protected void onListItemClicked(Reply item) {
+    protected void onListItemClicked(Reply reply) {
 
     }
 }

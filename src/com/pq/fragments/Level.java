@@ -15,4 +15,6 @@ public final class Level {
     public final static int PHOTOQUEST_MINE_PHOTO = 8;
     public final static int PHOTOQUEST_FRIENDS_PHOTO = 9;
     public final static int WRITE_MESSAGE = 10;
+    public final static int REPLY_PHOTO = 11;
+    public final static int REPLY_PROFILE = 12;
 }

@@ -97,5 +97,10 @@ public abstract class RepliesAdapter extends NavigationListAdapter<Reply, ReplyH
         }
     }
 
+    @Override
+    public boolean isEnabled(int position) {
+        return false;
+    }
+
     protected abstract void replaceFragment(Fragment newFragment, int navigationLevel);
 }

@@ -5,6 +5,8 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.TextView;
 import com.pq.R;
 import com.pq.app.PhotoQuestApp;
 import com.pq.data.PhotoCategory;
@@ -181,5 +183,16 @@ public class MainActivity extends NavigationDrawerActivity {
         }
 
         return 1;
+    }
+
+    @Override
+    protected String getActionBarTitle(int selectedItemId, int tabIndex, int navigationLevel) {
+        if(navigationLevel == Level.ROOT){
+            TextView selectedView = (TextView) getSelectedView();
+            CharSequence selectedViewText = selectedView.getText();
+            return selectedViewText.toString();
+        }
+
+        return super.getActionBarTitle(selectedItemId, tabIndex, navigationLevel);
     }
 }

@@ -152,7 +152,9 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
         Fragments.executeWhenViewCreated(this, new GuiUtilities.OnViewCreated() {
             @Override
             public void onViewCreated(View view) {
-                updateNavigationList(null);
+                if (adapter.getElements() == null) {
+                    updateNavigationList(null);
+                }
             }
         });
     }

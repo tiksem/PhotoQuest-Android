@@ -1,13 +1,20 @@
 package com.pq.fragments;
 
+import android.app.ActionBar;
 import android.app.Activity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pq.R;
 import com.pq.adapters.MessagesAdapter;
 import com.pq.data.Message;
+import com.pq.data.User;
 import com.pq.network.RequestManager;
+import com.pq.utils.Images;
 import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
@@ -20,6 +27,7 @@ public class MessagesFragment extends NavigationListFragment<Message> {
     private static final String USER_ID = "userId";
     private long userId;
     private EditText message;
+    private User user;
 
     public static MessagesFragment create(long userId) {
         MessagesFragment fragment = new MessagesFragment();
@@ -90,6 +98,33 @@ public class MessagesFragment extends NavigationListFragment<Message> {
                 send();
             }
         });
+
+        getRequestManager().getUserById(userId, new OnSuccess<User>() {
+            @Override
+            public void onSuccess(User user) {
+                MessagesFragment.this.user = user;
+                onUserLoaded();
+            }
+        });
+    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        if (user != null) {
+            inflater.inflate(R.menu.mini_avatar, menu);
+            MenuItem miniAvatar = menu.findItem(R.id.mini_avatar);
+            Images.displayIcon(getRequestManager(), miniAvatar, user.getAvatarId(), getActivity());
+        }
+        super.onCreateOptionsMenu(menu, inflater);
+    }
+
+    private void onUserLoaded() {
+        Activity activity = getActivity();
+        final ActionBar actionBar = activity.getActionBar();
+        if (actionBar != null) {
+            actionBar.setTitle(user.getNameData());
+        }
+        activity.invalidateOptionsMenu();
     }
 
     private void send(String text) {

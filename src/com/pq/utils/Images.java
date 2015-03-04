@@ -1,7 +1,10 @@
 package com.pq.utils;
 
+import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -22,6 +25,7 @@ import java.io.IOException;
  * Created by CM on 12/26/2014.
  */
 public class Images {
+    private static final int ICON_SIZE = 100;
     private static ImageLoader imageLoader = ImageLoader.getInstance();
     private static DisplayImageOptions displayImageOptions;
     static {
@@ -79,6 +83,36 @@ public class Images {
                 } else {
                     imageView.setImageResource(R.drawable.empty_avatar);
                 }
+            }
+        });
+    }
+
+    public static void displayIcon(ImageUrlProvider urlProvider, final MenuItem menuItem,
+                                   Long imageId, final Context context) {
+        if(imageId == null){
+            return;
+        }
+
+        String url = urlProvider.getThumbnailUrl(imageId, ICON_SIZE);
+        imageLoader.loadImage(url, new ImageLoadingListener() {
+            @Override
+            public void onLoadingStarted(String s, View view) {
+
+            }
+
+            @Override
+            public void onLoadingFailed(String s, View view, FailReason failReason) {
+
+            }
+
+            @Override
+            public void onLoadingComplete(String s, View view, Bitmap bitmap) {
+                menuItem.setIcon(new BitmapDrawable(context.getResources(), bitmap));
+            }
+
+            @Override
+            public void onLoadingCancelled(String s, View view) {
+
             }
         });
     }

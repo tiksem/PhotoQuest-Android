@@ -51,6 +51,10 @@ public class RequestManager implements ImageUrlProvider {
     }
 
     private NavigationList<User> getUsers(String url, Sorting sorting, String filter) {
+        return getUsers(url, sorting, filter, -1);
+    }
+
+    private NavigationList<User> getUsers(String url, Sorting sorting, String filter, long userId) {
         GetNavigationListParams<User> params = new GetNavigationListParams<User>();
         params.url = rootUrl + url;
         params.limit = 10;
@@ -61,6 +65,9 @@ public class RequestManager implements ImageUrlProvider {
         if (filter != null) {
             params.params.put("query", filter);
         }
+        if(userId > 0){
+            params.params.put("userId", userId);
+        }
         return httpClient.getNavigationList(params);
     }
 
@@ -68,8 +75,8 @@ public class RequestManager implements ImageUrlProvider {
         return getUsers("//users", sorting, filter);
     }
 
-    public NavigationList<User> getFriends(Sorting sorting, String filter) {
-        return getUsers("//friends", sorting, filter);
+    public NavigationList<User> getFriends(Sorting sorting, String filter, long userId) {
+        return getUsers("//friends", sorting, filter, userId);
     }
 
     public NavigationList<User> getReceivedRequests(Sorting sorting, String filter) {

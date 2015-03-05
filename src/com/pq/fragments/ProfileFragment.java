@@ -56,6 +56,11 @@ public class ProfileFragment extends NavigationListFragment<Feed> implements Act
         replaceFragment(fragment, Level.USER_PHOTOQUESTS);
     }
 
+    private void openFriends() {
+        FriendsFragment friendsFragment = FriendsFragment.create(userId);
+        replaceFragment(friendsFragment, Level.USER_FRIENDS);
+    }
+
     private void addFriend() {
 
     }
@@ -98,6 +103,13 @@ public class ProfileFragment extends NavigationListFragment<Feed> implements Act
             @Override
             public void onClick(View v) {
                 addFriend();
+            }
+        });
+
+        header.findViewById(R.id.friends).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openFriends();
             }
         });
 

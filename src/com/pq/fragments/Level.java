@@ -17,4 +17,5 @@ public final class Level {
     public final static int WRITE_MESSAGE = 10;
     public final static int REPLY_PHOTO = 11;
     public final static int REPLY_PROFILE = 12;
+    public final static int USER_FRIENDS = 13;
 }

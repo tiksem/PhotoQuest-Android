@@ -261,6 +261,10 @@ public class RequestManager implements ImageUrlProvider {
     }
 
     public NavigationList<GalleryPhoto> getPhotosOfUser(long userId, Sorting sorting) {
+        if(userId < 0){
+            userId = getSignedInUser().getId();
+        }
+
         GetNavigationListParams<GalleryPhoto> params = getPhotosParams("//getPhotosOfUser", sorting);
         params.params.put("userId", userId);
 

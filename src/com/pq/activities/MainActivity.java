@@ -90,7 +90,7 @@ public class MainActivity extends NavigationDrawerActivity {
             } else if(selectedItemId == R.id.replies) {
                 return new RepliesFragment();
             } else if(selectedItemId == R.id.photos) {
-                return UserPhotosFragment.create(requestManager.getSignedInUser().getId());
+                return UserPhotosFragment.create(-1);
             }
         } else if(navigationLevel == Level.PHOTOQUEST_PHOTOS) {
             int photoLevel;

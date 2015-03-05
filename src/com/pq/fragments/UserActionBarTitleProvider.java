@@ -39,7 +39,7 @@ public class UserActionBarTitleProvider implements ActionBarTitleProvider {
     @Override
     public String getActionBarTitle() {
         if(user == null){
-            return null;
+            return fragment.getActivity().getString(whatId);
         }
 
         return PhotoquestUtilities.of(user.getName(), whatId);

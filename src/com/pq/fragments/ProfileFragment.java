@@ -17,11 +17,12 @@ import com.utils.framework.collections.NavigationList;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
 import com.utilsframework.android.json.OnSuccess;
+import com.utilsframework.android.navigation.ActionBarTitleProvider;
 
 /**
  * Created by CM on 1/20/2015.
  */
-public class ProfileFragment extends NavigationListFragment<Feed> {
+public class ProfileFragment extends NavigationListFragment<Feed> implements ActionBarTitleProvider {
     private static final String USER_ID = "userId";
     private long userId;
 
@@ -133,5 +134,10 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
     @Override
     protected void onListItemClicked(Feed item) {
 
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return getActivity().getString(R.string.profile);
     }
 }

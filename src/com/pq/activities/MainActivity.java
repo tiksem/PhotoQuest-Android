@@ -185,12 +185,16 @@ public class MainActivity extends NavigationDrawerActivity {
         return 1;
     }
 
+    private String getSelectedViewText() {
+        TextView selectedView = (TextView) getSelectedView();
+        CharSequence selectedViewText = selectedView.getText();
+        return selectedViewText.toString();
+    }
+
     @Override
     protected String getActionBarTitle(int selectedItemId, int tabIndex, int navigationLevel) {
         if(navigationLevel == Level.ROOT){
-            TextView selectedView = (TextView) getSelectedView();
-            CharSequence selectedViewText = selectedView.getText();
-            return selectedViewText.toString();
+            return getSelectedViewText();
         }
 
         return super.getActionBarTitle(selectedItemId, tabIndex, navigationLevel);

@@ -1,11 +1,16 @@
 package com.pq.app;
 
 import android.app.Application;
+import android.content.res.AssetManager;
+import android.content.res.Resources;
 import android.os.Environment;
+import com.mulya.PetrovichDeclinationMaker;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.pq.network.RequestManager;
+import com.utilsframework.android.resources.StringUtilities;
 
 import java.io.*;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -19,6 +24,8 @@ public class PhotoQuestApp extends Application {
     }
 
     private RequestManager requestManager;
+    private Resources enStringResources;
+    PetrovichDeclinationMaker petrovich;
 
     private Properties getProperties() {
         File file = new File(Environment.getExternalStorageDirectory(), "PhotoQuest/config.properties");
@@ -51,9 +58,23 @@ public class PhotoQuestApp extends Application {
         String host = properties.getProperty("host");
         requestManager = new RequestManager(host);
         ImageLoader.getInstance().init(ImageLoaderConfigFactory.getCommonImageLoaderConfig(this));
+        try {
+            petrovich = PetrovichDeclinationMaker.getInstance(getAssets().open("rules.txt"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        enStringResources = StringUtilities.getStringResourcesInLocale(this, Locale.ENGLISH);
     }
 
     public RequestManager getRequestManager() {
         return requestManager;
+    }
+
+    public Resources getEnStringResources() {
+        return enStringResources;
+    }
+
+    public PetrovichDeclinationMaker getPetrovich() {
+        return petrovich;
     }
 }

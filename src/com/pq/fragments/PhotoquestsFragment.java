@@ -4,20 +4,26 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
 import android.os.Bundle;
+import android.view.View;
+import com.pq.PhotoquestUtilities;
 import com.pq.R;
 import com.pq.adapters.PhotoquestsAdapter;
 import com.pq.data.PhotoCategory;
 import com.pq.data.Photoquest;
+import com.pq.data.User;
 import com.pq.network.RequestManager;
 import com.utilsframework.android.adapters.ViewArrayAdapter;
 import com.utilsframework.android.fragments.Fragments;
+import com.utilsframework.android.json.OnSuccess;
+import com.utilsframework.android.navigation.ActionBarTitleProvider;
 
 /**
  * Created by CM on 12/26/2014.
  */
-public abstract class PhotoquestsFragment extends NavigationListFragment<Photoquest> {
+public abstract class PhotoquestsFragment extends NavigationListFragment<Photoquest> implements ActionBarTitleProvider {
     private static final String USER_ID = "userId";
     protected long userId;
+    private UserActionBarTitleProvider titleProvider;
 
     public static <T extends PhotoquestsFragment> T create(Context context, long userId,
                                                  Class<T> aClass) {
@@ -30,6 +36,8 @@ public abstract class PhotoquestsFragment extends NavigationListFragment<Photoqu
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         userId = Fragments.getLong(this, USER_ID, -1);
+        titleProvider = new UserActionBarTitleProvider(userId, getRequestManager(), this, R.string.photoquests);
+        titleProvider.updateUser();
     }
 
     @Override
@@ -56,5 +64,10 @@ public abstract class PhotoquestsFragment extends NavigationListFragment<Photoqu
     @Override
     protected boolean hasSearchMenu() {
         return true;
+    }
+
+    @Override
+    public String getActionBarTitle() {
+        return titleProvider.getActionBarTitle();
     }
 }

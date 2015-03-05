@@ -22,7 +22,7 @@ public class DialogsFragment extends NavigationListFragment<DialogInfo> {
 
     @Override
     protected void onListItemClicked(DialogInfo item) {
-        MessagesFragment messagesFragment = MessagesFragment.create(item.userId);
+        MessagesFragment messagesFragment = MessagesFragment.create(item);
         replaceFragment(messagesFragment, Level.MESSAGES);
     }
 }

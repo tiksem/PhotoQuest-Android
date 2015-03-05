@@ -59,12 +59,12 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
 
     }
 
-    private void writeMessage() {
-        Fragment fragment = MessagesFragment.create(userId);
+    private void writeMessage(User user) {
+        Fragment fragment = MessagesFragment.create(user);
         replaceFragment(fragment, Level.WRITE_MESSAGE);
     }
 
-    private View createHeader(ImageUrlProvider imageUrlProvider, User user) {
+    private View createHeader(ImageUrlProvider imageUrlProvider, final User user) {
         View header = View.inflate(getActivity(), R.layout.profile_header, null);
         ImageView avatar = (ImageView) header.findViewById(R.id.avatar);
         TextView userName = (TextView) header.findViewById(R.id.name);
@@ -89,7 +89,7 @@ public class ProfileFragment extends NavigationListFragment<Feed> {
         header.findViewById(R.id.writeMessage).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                writeMessage();
+                writeMessage(user);
             }
         });
 

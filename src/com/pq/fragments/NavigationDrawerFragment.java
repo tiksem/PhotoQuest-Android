@@ -15,4 +15,8 @@ public class NavigationDrawerFragment extends Fragment {
     public void replaceFragment(Fragment newFragment, int navigationLevel) {
         getNavigationActivity().replaceFragment(newFragment, navigationLevel);
     }
+
+    public void updateActionBarTitle() {
+        getNavigationActivity().updateActionBarTitle();
+    }
 }

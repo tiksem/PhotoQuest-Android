@@ -1,5 +1,6 @@
 package com.pq.fragments;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.view.*;
 import android.widget.AbsListView;
@@ -35,6 +36,12 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
     private MenuManager menuManager;
 
     @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        requestManager = PhotoQuestApp.getInstance().getRequestManager();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         setHasOptionsMenu(true);
@@ -45,7 +52,6 @@ public abstract class NavigationListFragment<T> extends NavigationDrawerFragment
     public void onViewCreated(final View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        requestManager = PhotoQuestApp.getInstance().getRequestManager();
         listView = (AbsListView) view.findViewById(getListResourceId());
 
         adapter = createAdapter(requestManager);
